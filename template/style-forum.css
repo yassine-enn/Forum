@@ -146,7 +146,7 @@ form[id="signup_form"] {
     height: 100%;
 }
 
-input[name="signup_input"] {
+input[id="popup_input"] {
     background: none;
     border: none;
     border-bottom: solid;
