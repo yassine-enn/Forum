@@ -1,13 +1,12 @@
 {{ define "header"}}
-
   <header>
     <div class="logo_container">
-      <a href="./accueil.html" id="logo">
+      <a href="/home" id="logo">
         <img src="/template/sources/forhum_logo.png" alt="logo" id="logo" />
       </a>
     </div>
     <div class="search_bar">
-      <form action="">
+      <form action="/home">
         <input type="text" name="search" placeholder="Rechercher un sujet" />
       </form>
       <img src="/template/sources/search-interface-symbol.png" id="search_button" />
@@ -15,13 +14,15 @@
     <div class="buttons_container">
       <button onclick="popupdisplay(`login`, 0, 0)" class="login">LOG IN</button>
       <button onclick="popupdisplay(`signup`, 0, 0)" class="signup">SIGN UP</button>
-      </form>
     </div>
   </header>
    <login class="popup_login">
+     <div class="popup_head">
       <h1 id='login'>LOG IN</h1>
+      <button onclick="popupclose(`login`)" class="close_popup_button"><img src="/template/sources/close.png" class="close_popup_button_img"></button>
+    </div>
       <div id="login_form" class="login_container">
-        <form action="" id="login_form">
+        <form action="/home" id="login_form">
           <input type="text" name="signup_input" placeholder="USERNAME"  required/>
           <input type="password" name="signup_input" placeholder="PASSWORD" required  />
               <input type="submit" value="LOG IN" name="signup_button"/>
@@ -30,9 +31,12 @@
       </div>
   </login>
   <signup class="popup_signup">
+    <div class="popup_head">
       <h1 id='signup'>SIGN UP</h1>
+      <button onclick="popupclose(`signup`)" class="close_popup_button"><img src="/template/sources/close.png" class="close_popup_button_img"></button>
+    </div>
       <div id="signup_form" class="signup_container">
-        <form action="" id="signup_form">
+        <form action="/home" id="signup_form">
           <input type="text" name="signup_input" placeholder="USERNAME (7-10 caractères)"  required/>
           <input type="text" name="signup_input" placeholder="EMAIL" required />
           <input type="password" name="signup_input" placeholder="PASSWORD (7-10 caractères avec maj/min et caractère spécial)" required  />
@@ -62,6 +66,8 @@
       popupclose('signup')
     }
   } 
+  $(document.body).click(popupclose('login'));
+  $(document.body).click(popupclose('signup'));
 </script>
 
 {{end}}
