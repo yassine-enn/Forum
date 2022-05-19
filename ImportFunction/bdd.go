@@ -1,4 +1,4 @@
-package execute
+package ImportFunction
 
 import (
 	"database/sql"
@@ -7,7 +7,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func readBdd() {
+func ReadBdd() {
 	db, err := sql.Open("sqlite3", "./Forum.db")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base")

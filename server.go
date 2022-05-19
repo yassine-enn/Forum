@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+
+	exe "ImportFunction/ImportFunction"
 )
 
 func main() {
@@ -13,9 +15,7 @@ func main() {
 		return
 	}
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
-		loginUsername := r.FormValue("loginUsername")
-		loginPassword := r.FormValue("loginPassword")
-		execute.login(loginUsername, loginPassword)
+		exe.Login(r.FormValue("loginUsername"), r.FormValue("loginPassword"))
 
 		tmpl.ExecuteTemplate(w, "acceuil", nil)
 	})

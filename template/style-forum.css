@@ -190,6 +190,7 @@ input[name="signup_button"]:hover {
 }
 
 .popup_signup {
+    background-color: #498AE4;
     display: none;
     top: 20%;
     left: 35%;
