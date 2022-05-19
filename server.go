@@ -16,28 +16,28 @@ func main() {
 		return
 	}
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
-		var UserID int
+		// var UserID int
 		var userName string
 		var userEmail string
 		var userPassword string
-		var userAvatar string
+		// var userAvatar string
 		if r.Method == "POST" {
-			UserID = 5
+			// UserID = 5
 			userName = r.FormValue("signupUsername")
 			userEmail = r.FormValue("signupEmail")
 			userPassword = r.FormValue("signupPassword")
-			userAvatar = "sasuke"
-			db, err := sql.Open("sqlite3", "./Forum.db")
+			// userAvatar = "sasuke"
+			db, err := sql.Open("sqlite3", "./forumxD")
 			if err != nil {
 				fmt.Println("Echec de l'ouverture de la base", err)
 				return
 			}
-			statement, prepareErr := db.Prepare("INSERT INTO User (UserID, Username, Email, PasswordHash, Avatar) VALUES (?,?,?,?,?)")
+			statement, prepareErr := db.Prepare("INSERT INTO User (UserID, Username, Email, PasswordHash, Avatar) VALUES (?,?,?)")
 			if prepareErr != nil {
 				fmt.Println("La préparation de la requête a échoué", prepareErr)
 				return
 			}
-			_, queryErr := statement.Exec(UserID, userName, userEmail, userPassword, userAvatar)
+			_, queryErr := statement.Exec(userName, userEmail, userPassword)
 			if queryErr != nil {
 				fmt.Println("Une erreur est survenue durant la requête", queryErr)
 				return
