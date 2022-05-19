@@ -1,6 +1,12 @@
+body {
+    background: scroll;
+    background-image: url(../sources/fond_forum.jpg);
+}
+
 /********* HEADER *********/
 
 header {
+    z-index: 10;
     position: absolute;
     display: flex;
     align-items: center;
@@ -10,7 +16,7 @@ header {
     width: 100%;
     height: 84px;
     background: linear-gradient(90deg, #4F8EE5 0.01%, rgba(79, 142, 229, 0) 0.01%, #4F8EE5 0.01%, rgba(79, 142, 229, 0) 31.88%),
-                linear-gradient(180deg, rgba(181, 24, 236, 0.73) 0%, rgba(3, 224, 191, 0) 0.01%, rgba(3, 224, 191, 0.665365) 0.02%, rgba(3, 224, 191, 0.665365) 0.03%, rgba(3, 224, 191, 0.665365) 100%);
+        linear-gradient(180deg, rgba(181, 24, 236, 0.73) 0%, rgba(3, 224, 191, 0) 0.01%, rgba(3, 224, 191, 0.665365) 0.02%, rgba(3, 224, 191, 0.665365) 0.03%, rgba(3, 224, 191, 0.665365) 100%);
 }
 
 .logo_container {
@@ -25,9 +31,11 @@ img[id="logo"] {
     width: 55px;
     height: 84px;
 }
+
 form {
     margin-block-end: 0 !important;
 }
+
 .search_bar {
     display: flex;
     flex-direction: row;
@@ -40,7 +48,7 @@ input[name="search"] {
     background: none;
     border-color: black;
     width: 385px;
-    height: 36px;   
+    height: 36px;
 }
 
 img[id="search_button"] {
@@ -62,20 +70,180 @@ img[id="search_button"] {
 }
 
 .login {
+    cursor: pointer;
     border: none;
     background-color: #498AE4;
     border-radius: 2%;
     width: 128px;
     height: 43px;
     color: white;
+    transition: ease-in, 300ms;
 }
 
+.login:hover {
+    background-color: transparent;
+    border: solid;
+    border-color: #498AE4;
+}
+
+.signup:hover {
+    background-color: white;
+    color: #498AE4;
+}
+
+
 .signup {
-    border-color:#498AE4;  
-    border-style: solid; 
+    cursor: pointer;
+    border-color: #498AE4;
+    border-style: solid;
     background-color: transparent;
     border-radius: 2%;
     width: 128px;
     height: 43px;
     color: white;
+    transition: ease-in, 300ms;
+}
+
+/********** SIGN UP *************/
+h1[id="signup"] {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+signup {
+    display: none;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.signup_container {
+    border: solid;
+    border-color: #498AE4;
+    border-radius: 2%;
+    width: 30%;
+    height: 57%;
+    border-width: 4px;
+}
+
+form[id="signup_form"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+}
+
+input[name="signup_input"] {
+    background: none;
+    border: none;
+    border-bottom: solid;
+    border-color: white;
+    width: 70%;
+    border-width: 4px;
+}
+
+::placeholder {
+    color: white;
+}
+
+input[name="signup_button"] {
+    height: 8%;
+    width: 40%;
+    border-radius: 5%;
+    border-style: none;
+    color: white;
+    background-color: #498AE4;
+    transition: ease-in, 300ms;
+}
+
+input[name="signup_button"]:hover {
+    background-color: transparent;
+    color: white;
+    border: solid;
+    border-color: #498AE4;
+    border-width: 2px;
+}
+
+.signup_add {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: x-small;
+}
+
+.signup_link_add {
+    color: white;
+    font-size: x-small;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.popup_signup {
+    display: none;
+    top: 20%;
+    left: 35%;
+}
+
+.close_button {
+    background-image: url(/sources/close.png);
+}
+
+/********** LOGIN *************/
+
+h1[id="login"] {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+login {
+    display: none;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.login_container {
+    border: solid;
+    border-color: #498AE4;
+    border-radius: 2%;
+    width: 30%;
+    height: 40%;
+    border-width: 4px;
+}
+
+form[id="login_form"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+}
+
+.login_add {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: x-small;
+}
+
+.login_link_add {
+    color: white;
+    font-size: x-small;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.popup_login {
+    display: none;
+    top: 20%;
+    left: 35%;
 }

@@ -17,9 +17,53 @@
       <img src="/sources/search-interface-symbol.png" id="search_button" />
     </div>
     <div class="buttons_container">
-      <button onclick="window.location.href='/'" class="login">LOG IN</button>
-      <button onclick="window.location.href='/'" class="signup">SIGN UP</button>
+      <button onclick="popupdisplay(`login`, 0, 0)" class="login">LOG IN</button>
+      <button onclick="popupdisplay(`signup`, 0, 0)" class="signup">SIGN UP</button>
       </form>
     </div>
   </header>
+   <login class="popup_login">
+      <h1 id='login'>LOG IN</h1>
+      <div id="login_form" class="login_container">
+        <form action="" id="login_form">
+          <input type="text" name="signup_input" placeholder="USERNAME"  required/>
+          <input type="password" name="signup_input" placeholder="PASSWORD" required  />
+              <input type="submit" value="LOG IN" name="signup_button"/>
+              <p class="login_add">You don't have an account yet ? Sign up now <a href="#" class="login_link_add" onclick="popupdisplay(`signup`, 0, 0)">here</a></p>
+        </form>
+      </div>
+  </login>
+  <signup class="popup_signup">
+      <h1 id='signup'>SIGN UP</h1>
+      <div id="signup_form" class="signup_container">
+        <form action="" id="signup_form">
+          <input type="text" name="signup_input" placeholder="USERNAME (7-10 caractères)"  required/>
+          <input type="text" name="signup_input" placeholder="EMAIL" required />
+          <input type="password" name="signup_input" placeholder="PASSWORD (7-10 caractères avec maj/min et caractère spécial)" required  />
+          <input type="password" name="signup_input" placeholder="CONFIRM PASSWORD" re  />
+          <input type="submit" value="SIGN UP" name="signup_button"/>
+          <p class="signup_add">You already have an account ? Log in <a href="#" class="signup_link_add" onclick="popupdisplay(`login`, 0, 0)">here</a>
+        </form>
+      </div>
+  </signup>
 </html>
+
+<script>
+  function popupclose(value) {
+    document.getElementsByClassName(`popup_${value}`)[0].style.display = "none";
+  }
+
+  function popupdisplay(value, comptLog, comptSign) {
+    document.getElementsByClassName(`popup_${value}`)[0].style.display = "block";
+    if (value === "login") {
+      comptLog += 1;
+    } else {
+      comptSign += 1;
+    }
+    if (comptLog%2 == 0) {
+      popupclose('login')
+    } else if (comptSign%2 == 0) {
+      popupclose('signup')
+    }
+  } 
+</script>
