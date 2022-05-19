@@ -22,9 +22,9 @@
       <button onclick="popupclose(`login`)" class="close_popup_button"><img src="/template/sources/close.png" class="close_popup_button_img"></button>
     </div>
       <div id="login_form" class="login_container">
-        <form action="/home" id="login_form">
-          <input type="text" name="signup_input" placeholder="USERNAME"  required/>
-          <input type="password" name="signup_input" placeholder="PASSWORD" required  />
+        <form action="/home" id="login_form" method="POST">
+          <input type="text" id="popup_input" placeholder="USERNAME" name="loginUsername" required/>
+          <input type="password" id="popup_input" placeholder="PASSWORD" name="loginPassword" required  />
               <input type="submit" value="LOG IN" name="signup_button"/>
               <p class="login_add">You don't have an account yet ? Sign up now <a href="#" class="login_link_add" onclick="popupdisplay(`signup`, 0, 0)">here</a></p>
         </form>
@@ -36,11 +36,11 @@
       <button onclick="popupclose(`signup`)" class="close_popup_button"><img src="/template/sources/close.png" class="close_popup_button_img"></button>
     </div>
       <div id="signup_form" class="signup_container">
-        <form action="/home" id="signup_form">
-          <input type="text" name="signup_input" placeholder="USERNAME (7-10 caractères)"  required/>
-          <input type="text" name="signup_input" placeholder="EMAIL" required />
-          <input type="password" name="signup_input" placeholder="PASSWORD (7-10 caractères avec maj/min et caractère spécial)" required  />
-          <input type="password" name="signup_input" placeholder="CONFIRM PASSWORD" re  />
+        <form action="/home" id="signup_form" method="POST">
+          <input type="text" id="popup_input" name="signupUsername" placeholder="USERNAME (7-10 caractères)"  required/>
+          <input type="text" id="popup_input" name="singupEmail" placeholder="EMAIL" required />
+          <input type="password" id="popup_input" name="signupPassword" placeholder="PASSWORD (7-10 caractères avec maj/min et caractère spécial)" required  />
+          <input type="password" id="popup_input" name="signupPasswordConfirm" placeholder="CONFIRM PASSWORD" required  />
           <input type="submit" value="SIGN UP" name="signup_button"/>
           <p class="signup_add">You already have an account ? Log in <a href="#" class="signup_link_add" onclick="popupdisplay(`login`, 0, 0)">here</a>
         </form>
