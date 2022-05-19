@@ -1,6 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background: scroll;
     background-image: url(./sources/fond_forum.jpg);
+    overflow: hidden;
 }
 
 /********* HEADER *********/
@@ -126,8 +132,8 @@ signup {
     border: solid;
     border-color: #498AE4;
     border-radius: 2%;
-    width: 30%;
-    height: 57%;
+    width: 100%;
+    height: 100%;
     border-width: 4px;
 }
 
@@ -187,6 +193,8 @@ input[name="signup_button"]:hover {
     display: none;
     top: 20%;
     left: 35%;
+    width: 30%;
+    height: 57%;
 }
 
 .close_button {
@@ -216,8 +224,8 @@ login {
     border: solid;
     border-color: #498AE4;
     border-radius: 2%;
-    width: 30%;
-    height: 40%;
+    width: 100%;
+    height: 100%;
     border-width: 4px;
 }
 
@@ -246,4 +254,25 @@ form[id="login_form"] {
     display: none;
     top: 20%;
     left: 35%;
+    width: 30%;
+    height: 40%;
+}
+
+.close_popup_button {
+    width: 24px;
+    height: 24px;
+    background-color: transparent;
+    border: none;
+}
+
+.close_popup_button_img {
+    width: 24px;
+    height: 24px;
+}
+
+.popup_head {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
