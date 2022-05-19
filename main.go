@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	db, err := sql.Open("sqlite3", "./ForumTestFlo.db")
+	db, err := sql.Open("sqlite3", "./Forum.db")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base")
 		return
