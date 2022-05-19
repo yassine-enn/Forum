@@ -9,6 +9,7 @@ body {
     overflow: hidden;
 }
 
+
 /********* HEADER *********/
 
 header {
@@ -21,8 +22,7 @@ header {
     left: 0;
     width: 100%;
     height: 84px;
-    background: linear-gradient(90deg, #4F8EE5 0.01%, rgba(79, 142, 229, 0) 0.01%, #4F8EE5 0.01%, rgba(79, 142, 229, 0) 31.88%),
-        linear-gradient(180deg, rgba(181, 24, 236, 0.73) 0%, rgba(3, 224, 191, 0) 0.01%, rgba(3, 224, 191, 0.665365) 0.02%, rgba(3, 224, 191, 0.665365) 0.03%, rgba(3, 224, 191, 0.665365) 100%);
+    background: linear-gradient(90deg, #4F8EE5 0.01%, rgba(79, 142, 229, 0) 0.01%, #4F8EE5 0.01%, rgba(79, 142, 229, 0) 31.88%), linear-gradient(180deg, rgba(181, 24, 236, 0.73) 0%, rgba(3, 224, 191, 0) 0.01%, rgba(3, 224, 191, 0.665365) 0.02%, rgba(3, 224, 191, 0.665365) 0.03%, rgba(3, 224, 191, 0.665365) 100%);
 }
 
 .logo_container {
@@ -97,7 +97,6 @@ img[id="search_button"] {
     color: #498AE4;
 }
 
-
 .signup {
     cursor: pointer;
     border-color: #498AE4;
@@ -110,7 +109,9 @@ img[id="search_button"] {
     transition: ease-in, 300ms;
 }
 
+
 /********** SIGN UP *************/
+
 h1[id="signup"] {
     color: white;
     font-family: Arial, Helvetica, sans-serif;
@@ -190,7 +191,6 @@ input[name="signup_button"]:hover {
 }
 
 .popup_signup {
-    background-color: #498AE4;
     display: none;
     top: 20%;
     left: 35%;
@@ -201,6 +201,7 @@ input[name="signup_button"]:hover {
 .close_button {
     background-image: url(/sources/close.png);
 }
+
 
 /********** LOGIN *************/
 

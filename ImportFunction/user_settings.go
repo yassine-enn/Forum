@@ -29,5 +29,27 @@ func Login(username string, password string) {
 	}
 	result.Close()
 	db.Close()
+}
 
+func Signup(username string, email string, password string) {
+	db, err := sql.Open("sqlite3", "./Forum.db")
+	if err != nil {
+		fmt.Println("Echec de l'ouverture de la base", err)
+		return
+	}
+	statement, prepareErr := db.Prepare("INSERT INTO User (UserID, Username, Email, PasswordHash, Avatar) VALUES (?,?,?,?,?)")
+	if prepareErr != nil {
+		fmt.Println("La préparation de la requête a échoué", prepareErr)
+		return
+	}
+	_, queryErr := statement.Exec(5, username, email, password, "null")
+	if queryErr != nil {
+		fmt.Println("Une erreur est survenue durant la requête", queryErr)
+		return
+	}
+	statement.Close()
+	db.Close()
+	fmt.Println("username:", username)
+	fmt.Println("email:", email)
+	fmt.Println("password:", password)
 }

@@ -16,7 +16,9 @@ func main() {
 	}
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
 		exe.Login(r.FormValue("loginUsername"), r.FormValue("loginPassword"))
-
+		if r.Method == "POST" {
+			exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
+		}
 		tmpl.ExecuteTemplate(w, "acceuil", nil)
 	})
 	fileServer := http.FileServer(http.Dir("./template/"))
