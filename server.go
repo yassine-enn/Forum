@@ -15,9 +15,12 @@ func main() {
 		return
 	}
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
-		exe.Login(r.FormValue("loginUsername"), r.FormValue("loginPassword"))
 		if r.Method == "POST" {
-			exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
+			if r.FormValue("signup_butto,") == "LOG IN" {
+				exe.Login(r.FormValue("loginUsername"), r.FormValue("loginPassword"))
+			} else {
+				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
+			}
 		}
 		tmpl.ExecuteTemplate(w, "acceuil", nil)
 	})
