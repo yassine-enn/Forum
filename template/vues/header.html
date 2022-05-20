@@ -11,10 +11,18 @@
       </form>
       <img src="/template/sources/search-interface-symbol.png" id="search_button" />
     </div>
+    {{ if (eq .IsConnected true )}}
+      <div class="user_container">
+        <a href="/profil">
+          <img src="/template/sources/user-interface-symbol.png" id="user_button" />
+        </a>
+      </div>
+    {{ else }}
     <div class="buttons_container">
       <button onclick="popupdisplay(`login`, 0, 0)" class="login">LOG IN</button>
       <button onclick="popupdisplay(`signup`, 0, 0)" class="signup">SIGN UP</button>
     </div>
+    {{ end }}
   </header>
    <login class="popup_login">
      <div class="popup_head">

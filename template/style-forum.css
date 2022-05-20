@@ -132,6 +132,7 @@ signup {
 .signup_container {
     border: solid;
     border-color: #498AE4;
+    background-color: rgba(73, 138, 228, 0.2);
     border-radius: 2%;
     width: 100%;
     height: 100%;
@@ -196,6 +197,7 @@ input[name="signup_button"]:hover {
     left: 35%;
     width: 30%;
     height: 57%;
+    transition: ease-in, 300ms;
 }
 
 .close_button {
@@ -225,6 +227,7 @@ login {
 .login_container {
     border: solid;
     border-color: #498AE4;
+    background-color: rgba(73, 138, 228, 0.2);
     border-radius: 2%;
     width: 100%;
     height: 100%;
