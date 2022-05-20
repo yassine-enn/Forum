@@ -11,10 +11,10 @@
       </form>
       <img src="/template/sources/search-interface-symbol.png" id="search_button" />
     </div>
-    {{ if (eq .IsConnected true )}}
+    {{ if (eq .IsLoged true) }}
       <div class="user_container">
-        <a href="/profil">
-          <img src="/template/sources/user-interface-symbol.png" id="user_button" />
+        <a href="/profil" id="user_link">
+          <img src="/template/sources/user.png" id="user_button" class="user_page_button"/>
         </a>
       </div>
     {{ else }}

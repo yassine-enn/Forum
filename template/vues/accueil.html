@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/template/style-forum.css" />
   </head>
-  {{ template "header"}}
-  <post>
-    <div class="post_containe"></div>
-  </post>
+  {{ template "header" . }}
+  <article id="post">
+    <div class="post_container"></div>
+    <p>*****************************</p>
+  </article>
 </html>
-{{end }}
+{{ end }}

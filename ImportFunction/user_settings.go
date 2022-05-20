@@ -23,11 +23,16 @@ func Login(username string, password string) bool {
 		fmt.Println("erreur lors de la recherche dans la base de donnée", err2)
 		return false
 	}
-	var Username string
-	var Password string
+	var UsernameFromDataBase string
+	var PasswordFromDataBase string
 	for login.Next() {
-		login.Scan(&Username, &Password)
-		fmt.Println(Username, Password)
+		login.Scan(&UsernameFromDataBase, &PasswordFromDataBase)
+		if err := bcrypt.CompareHashAndPassword([]byte(PasswordFromDataBase), []byte(password)); err != nil {
+			fmt.Println("wrong password")
+			return false
+		}
+		fmt.Println("password was correct")
+		return true
 	}
 	result.Close()
 	db.Close()
