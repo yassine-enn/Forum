@@ -32,7 +32,7 @@ func Login(username string, password string) {
 }
 
 func Signup(username string, email string, password string) {
-	db, err := sql.Open("sqlite3", "./forumdb")
+	db, err := sql.Open("sqlite3", "./ALED")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base", err)
 		return
