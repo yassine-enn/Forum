@@ -3,23 +3,25 @@ package ImportFunction
 import (
 	"database/sql"
 	"fmt"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
-func Login(username string, password string) {
-	db, err := sql.Open("sqlite3", "./Forum.db")
+func Login(username string, password string) bool {
+	db, err := sql.Open("sqlite3", "./forumdb")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base")
-		return
+		return false
 	}
-	result, err1 := db.Prepare("SELECT Username, Password FROM User WHERE Username = ?")
+	result, err1 := db.Prepare("SELECT Username, PasswordHash FROM User WHERE Username = ?")
 	if err1 != nil {
 		fmt.Println("erreur lors de la recherche dans la base de donnée", err1)
-		return
+		return false
 	}
 	login, err2 := result.Query(username)
 	if err2 != nil {
 		fmt.Println("erreur lors de la recherche dans la base de donnée", err2)
-		return
+		return false
 	}
 	var Username string
 	var Password string
@@ -32,17 +34,27 @@ func Login(username string, password string) {
 }
 
 func Signup(username string, email string, password string) {
-	db, err := sql.Open("sqlite3", "./Forum.db")
+	if username == "" || email == "" || password == "" {
+		fmt.Println("Veuillez remplir tous les champs")
+		return
+	}
+	db, err := sql.Open("sqlite3", "./forumdb")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base", err)
 		return
 	}
-	statement, prepareErr := db.Prepare("INSERT INTO User (UserID, Username, Email, PasswordHash, Avatar) VALUES (?,?,?,?,?)")
+	statement, prepareErr := db.Prepare("INSERT INTO User (Username, Email, PasswordHash) VALUES (?,?,?)")
 	if prepareErr != nil {
 		fmt.Println("La préparation de la requête a échoué", prepareErr)
 		return
 	}
-	_, queryErr := statement.Exec(5, username, email, password, "null")
+
+	passwordHash, hashErr := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if hashErr != nil {
+		fmt.Println("Erreur lors de la génération du hash", err)
+		return
+	}
+	_, queryErr := statement.Exec(username, email, passwordHash)
 	if queryErr != nil {
 		fmt.Println("Une erreur est survenue durant la requête", queryErr)
 		return
