@@ -30,9 +30,10 @@ func Login(username string, password string) bool {
 		if err := bcrypt.CompareHashAndPassword([]byte(PasswordFromDataBase), []byte(password)); err != nil {
 			fmt.Println("wrong password")
 			return false
+		} else {
+			fmt.Println("password was correct")
+			return true
 		}
-		fmt.Println("password was correct")
-		return true
 	}
 	result.Close()
 	db.Close()

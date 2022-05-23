@@ -23,10 +23,19 @@ func main() {
 		if r.Method == "POST" {
 			if r.FormValue("signup_button") == "LOG IN" {
 				isLog = exe.Login(r.FormValue("loginUsername"), r.FormValue("loginPassword"))
+				if isLog {
+					cookie := exe.CookieGenerator(r.FormValue("loginUsername"))
+					http.SetCookie(w, &cookie)
+				}
 			} else {
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
 			}
+			if r.FormValue("logout") == "logout" {
+				isLog = false
+			}
 		}
+		cookie, _ := r.Cookie(r.FormValue("loginUsername"))
+		fmt.Println(w, cookie)
 		data := Page{isLog}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
