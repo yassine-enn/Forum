@@ -102,7 +102,7 @@ a[id="user_link"] {
 .user_page_button {
   width: 24px;
   height: 24px;
-  z-index: 9;
+  margin-block-end: auto;
 }
 
 .logout_button {
@@ -111,7 +111,7 @@ a[id="user_link"] {
   background: none;
   border: none;
   margin-block-end: auto;
-  z-index: 10;
+  cursor: pointer;
 }
 
 .login {

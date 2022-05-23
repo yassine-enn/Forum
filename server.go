@@ -32,10 +32,10 @@ func main() {
 			}
 			if r.FormValue("logout") == "logout" {
 				isLog = false
+			} else {
+				fmt.Println("No logout")
 			}
 		}
-		cookie, _ := r.Cookie(r.FormValue("loginUsername"))
-		fmt.Println(w, cookie)
 		data := Page{isLog}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
