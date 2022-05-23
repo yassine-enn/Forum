@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/template/style-forum.css" />
   </head>
-  {{ template "header"}}
+  {{ template "header" .}}
   <article id="post">
     <div class="post_containe"></div>
   <form action="/home" id="post_form" method="POST">
@@ -20,4 +20,4 @@
     </form>
   </article>
 </html>
-{{end }}
+{{ end }}

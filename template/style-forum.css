@@ -22,7 +22,7 @@ header {
     left: 0;
     width: 100%;
     height: 84px;
-    background: linear-gradient(90deg, #4F8EE5 0.01%, rgba(79, 142, 229, 0) 0.01%, #4F8EE5 0.01%, rgba(79, 142, 229, 0) 31.88%), linear-gradient(180deg, rgba(181, 24, 236, 0.73) 0%, rgba(3, 224, 191, 0) 0.01%, rgba(3, 224, 191, 0.665365) 0.02%, rgba(3, 224, 191, 0.665365) 0.03%, rgba(3, 224, 191, 0.665365) 100%);
+    background: linear-gradient( 90deg, #4f8ee5 0.01%, rgba(79, 142, 229, 0) 0.01%, #4f8ee5 0.01%, rgba(79, 142, 229, 0) 31.88%), linear-gradient( 180deg, rgba(181, 24, 236, 0.73) 0%, rgba(3, 224, 191, 0) 0.01%, rgba(3, 224, 191, 0.665365) 0.02%, rgba(3, 224, 191, 0.665365) 0.03%, rgba(3, 224, 191, 0.665365) 100%);
 }
 
 .logo_container {
@@ -75,10 +75,36 @@ img[id="search_button"] {
     align-items: center;
 }
 
+.user_container {
+    width: 20%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+a[id="user_link"] {
+    margin-right: 10%;
+}
+
+.user_page_button {
+    width: 24px;
+    height: 24px;
+    z-index: 9;
+}
+
+.logout_button {
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    margin-block-end: auto;
+    z-index: 10;
+}
+
 .login {
     cursor: pointer;
     border: none;
-    background-color: #498AE4;
+    background-color: #498ae4;
     border-radius: 2%;
     width: 128px;
     height: 43px;
@@ -89,17 +115,17 @@ img[id="search_button"] {
 .login:hover {
     background-color: transparent;
     border: solid;
-    border-color: #498AE4;
+    border-color: #498ae4;
 }
 
 .signup:hover {
     background-color: white;
-    color: #498AE4;
+    color: #498ae4;
 }
 
 .signup {
     cursor: pointer;
-    border-color: #498AE4;
+    border-color: #498ae4;
     border-style: solid;
     background-color: transparent;
     border-radius: 2%;
@@ -131,7 +157,7 @@ signup {
 
 .signup_container {
     border: solid;
-    border-color: #498AE4;
+    border-color: #498ae4;
     background-color: rgba(73, 138, 228, 0.2);
     border-radius: 2%;
     width: 100%;
@@ -167,7 +193,7 @@ input[name="signup_button"] {
     border-radius: 5%;
     border-style: none;
     color: white;
-    background-color: #498AE4;
+    background-color: #498ae4;
     transition: ease-in, 300ms;
 }
 
@@ -175,7 +201,7 @@ input[name="signup_button"]:hover {
     background-color: transparent;
     color: white;
     border: solid;
-    border-color: #498AE4;
+    border-color: #498ae4;
     border-width: 2px;
 }
 
@@ -226,7 +252,7 @@ login {
 
 .login_container {
     border: solid;
-    border-color: #498AE4;
+    border-color: #498ae4;
     background-color: rgba(73, 138, 228, 0.2);
     border-radius: 2%;
     width: 100%;
@@ -282,6 +308,9 @@ form[id="login_form"] {
     justify-content: space-between;
 }
 
+
+/********** POST-SECTION *************/
+
 article[id="post"] {
-    margin-top: 10%;
+    top: 10%;
 }
