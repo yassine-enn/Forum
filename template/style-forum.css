@@ -281,3 +281,7 @@ form[id="login_form"] {
     align-items: center;
     justify-content: space-between;
 }
+
+article[id="post"] {
+    margin-top: 10%;
+}

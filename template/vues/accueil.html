@@ -7,8 +7,17 @@
     <link rel="stylesheet" href="/template/style-forum.css" />
   </head>
   {{ template "header"}}
-  <post>
+  <article id="post">
     <div class="post_containe"></div>
-  </post>
+  <form action="/home" id="post_form" method="POST">
+    <input type="text" name="postTitle" placeholder="Post Title" />
+    <textarea name="postContent" placeholder="Post Content"></textarea>
+    <input type="submit" name="submit" value="Envoyer" />
+  </form>
+  <form action = "/home" method="POST">
+    <input type="submit" name="submit" value="like" />
+    <input type="submit" name="submit" value="dislike" />
+    </form>
+  </article>
 </html>
 {{end }}

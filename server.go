@@ -17,8 +17,10 @@ func main() {
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			if r.FormValue("signup_button") == "LOG IN" {
-				exe.Login(r.FormValue("loginUsername"), r.FormValue("loginPassword"))
+				// exe.Login(r.FormValue("loginUsername"), r.FormValue("loginPassword"))
 			} else {
+				fmt.Println("pessi fraude finito")
+				exe.PostTopic(r.FormValue("postContent"), r.FormValue("postTitle"))
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
 			}
 		}
