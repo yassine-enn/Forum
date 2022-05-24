@@ -10,6 +10,7 @@ import (
 
 type Page struct {
 	IsLoged bool
+	Post    []exe.Post
 }
 
 func main() {
@@ -28,15 +29,13 @@ func main() {
 					http.SetCookie(w, &cookie)
 				}
 			} else {
+				fmt.Println("pessi fraude finito")
+				exe.PostTopic(r.FormValue("postContent"), r.FormValue("postTitle"))
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
 			}
-			if r.FormValue("logout") == "logout" {
-				isLog = false
-			} else {
-				fmt.Println("No logout")
-			}
 		}
-		data := Page{isLog}
+		fmt.Println(exe.PostDataReader())
+		data := Page{isLog, exe.PostDataReader()}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
 	fileServer := http.FileServer(http.Dir("./template/"))
