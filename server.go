@@ -13,6 +13,7 @@ import (
 
 type Page struct {
 	IsLoged bool
+	Post    []exe.Post
 }
 
 var store = sessions.NewCookieStore([]byte("super-secret"))
@@ -41,9 +42,6 @@ func main() {
 				exe.PostTopic(r.FormValue("postContent"), r.FormValue("postTitle"))
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
 			}
-			if r.FormValue("logout") == "logout" {
-				isLog = false
-			}
 		}
 		// cookie, _ := r.Cookie(r.FormValue("loginUsername"))
 		// user := http.Cookie{
@@ -52,11 +50,19 @@ func main() {
 		// http.SetCookie(w, &user)
 		// fmt.Println("user:", user)
 		// fmt.Println(w, cookie)
-		data := Page{isLog}
+		// data := Page{isLog}
+		fmt.Println(exe.PostDataReader())
+		data := Page{isLog, exe.PostDataReader()}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
 	http.HandleFunc("/index", func(w http.ResponseWriter, r *http.Request) {
-		data := Page{isLog}
+		session, _ := store.Get(r, "session")
+		_, ok := session.Values["userID"]
+		if !ok {
+			http.Redirect(w, r, "/home", http.StatusFound)
+			return
+		}
+		data := Page{isLog, exe.PostDataReader()}
 		tmpl.ExecuteTemplate(w, "index", data)
 	})
 	fileServer := http.FileServer(http.Dir("./template/"))

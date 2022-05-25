@@ -89,7 +89,7 @@ a[id="user_link"] {
 .user_page_button {
     width: 24px;
     height: 24px;
-    z-index: 9;
+    margin-block-end: auto;
 }
 
 .logout_button {
@@ -98,7 +98,7 @@ a[id="user_link"] {
     background: none;
     border: none;
     margin-block-end: auto;
-    z-index: 10;
+    cursor: pointer;
 }
 
 .login {
@@ -144,7 +144,7 @@ h1[id="signup"] {
 }
 
 signup {
-    display: none;
+    <<<<<<< HEAD display: none;
     z-index: 1;
     display: flex;
     flex-direction: column;
@@ -153,6 +153,16 @@ signup {
     position: absolute;
     width: 100%;
     height: 100%;
+    =======display: none;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    >>>>>>>f0b2a402478d86468392187cfa77eeadeaf08b3f
 }
 
 .signup_container {
@@ -239,7 +249,7 @@ h1[id="login"] {
 }
 
 login {
-    display: none;
+    <<<<<<< HEAD display: none;
     z-index: 1;
     display: flex;
     flex-direction: column;
@@ -248,6 +258,16 @@ login {
     position: absolute;
     width: 100%;
     height: 100%;
+    =======display: none;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    >>>>>>>f0b2a402478d86468392187cfa77eeadeaf08b3f
 }
 
 .login_container {
@@ -302,7 +322,11 @@ form[id="login_form"] {
 }
 
 .popup_head {
-    display: flex;
+    <<<<<<< HEAD display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    =======display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -313,4 +337,69 @@ form[id="login_form"] {
 
 article[id="post"] {
     top: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    >>>>>>>f0b2a402478d86468392187cfa77eeadeaf08b3f
 }
+
+
+/********** POST-SECTION *************/
+
+article[id="post"] {
+    <<<<<<< HEAD top: 10%;
+}
+
+=======margin-top: 10%;
+
+}
+.post_container {
+    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 45%;
+}
+.post_frame {
+    display: flex;
+    flex-direction: row;
+    border: solid;
+    border-color: #498ae4;
+    border-width: 2px;
+    border-radius: 2px;
+    width: auto;
+}
+.post_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+}
+.home_layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+.addon_container {
+    border: solid;
+    border-color: #498ae4;
+    margin-left: 5%;
+    height: fit-content;
+    border-radius: 2%;
+}
+.category_container {
+    border: solid;
+    border-color: #498ae4;
+    height: fit-content;
+}
+.filter_container {
+    border: solid;
+    border-color: #498ae4;
+    height: fit-content;
+}
+>>>>>>>f0b2a402478d86468392187cfa77eeadeaf08b3f
