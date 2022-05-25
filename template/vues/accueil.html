@@ -21,41 +21,48 @@
       <div class="post_container">
         {{ range .Post }}
         <div class="post_frame">
+          <div class="post_margin">
           <div class="post_content">
             <div class="post_header">
               <div class="post_header_left">
                 <p>Category</p>
               </div>
               <div class="post_header_right">
-                <p>{{ .Category }}</p>
+                <p>{{ .PostTitle }}</p>
               </div>
             </div>
-            <h1>{{ .PostTitle }}</h1>
             <div class="post_content_text">{{ .PostContent }}</div>
-            <div class="like_container">like</div>
             <div class="post_footer">
               <div class="post_footer_left">
+                <p>author</p>
                 <p>{{ .PostDate }}</p>
               </div>
               <div class="post_footer_right">
-                <p>button</p>
+                <a href="/home"><img src="/template/sources/comment.png" class="icon_post"></a>
+                <button class="icon_post"><img src="/template/sources/save-instagram.png" class="icon_post"></button>
+                <button class="icon_post" onclick="//faire une fonction js de copie de lien"><img src="/template/sources/share.png" class="icon_post"></button>
               </div>
             </div>
           </div>
-        </div>
           <div class="like_frame">
+            <div class="like_button">
+              <button class="icon_post"><img src="/template//sources/up-arrow.png" class="icon_post"></button>
+            </div>
             <p>{{ .PostLike }}</p>
+            <div class="dislike_button">
+              <button class="icon_post"><img src="/template//sources/down-arrow.png" class="icon_post"></button>
+            </div>
           </div>
         </div>
-        {{ end }}
+        </div>
+      {{ end }}
+    </div>
+    <div class="addon_container">
+      <div class="category_container">
+        <h1>Categories</h1>
       </div>
-      <div class="addon_container">
-        <div class="category_container">
-          <h1>Categories</h1>
-        </div>
-        <div class="filter_container">
-          <h1>Filters</h1>
-        </div>
+      <div class="filter_container">
+        <h1>Filters</h1>
       </div>
     </div>
   </article>
