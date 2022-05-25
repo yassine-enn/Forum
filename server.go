@@ -6,12 +6,17 @@ import (
 	"net/http"
 
 	exe "ImportFunction/ImportFunction"
+
+	"github.com/gorilla/context"
+	"github.com/gorilla/sessions"
 )
 
 type Page struct {
 	IsLoged bool
 	Post    []exe.Post
 }
+
+var store = sessions.NewCookieStore([]byte("super-secret"))
 
 func main() {
 	var isLog bool
@@ -25,8 +30,12 @@ func main() {
 			if r.FormValue("signup_button") == "LOG IN" {
 				isLog = exe.Login(r.FormValue("loginUsername"), r.FormValue("loginPassword"))
 				if isLog {
-					cookie := exe.CookieGenerator(r.FormValue("loginUsername"))
-					http.SetCookie(w, &cookie)
+					// cookie := exe.CookieGenerator(r.FormValue("loginUsername"))
+					// http.SetCookie(w, &cookie)
+					session, _ := store.Get(r, "session")
+					session.Values["userID"] = r.FormValue("loginUsername")
+					session.Save(r, w)
+
 				}
 			} else {
 				fmt.Println("pessi fraude finito")
@@ -41,5 +50,5 @@ func main() {
 	fileServer := http.FileServer(http.Dir("./template/"))
 	http.Handle("/template/", http.StripPrefix("/template/", fileServer))
 	fmt.Println("Listening on port 8080")
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8080", context.ClearHandler(http.DefaultServeMux))
 }
