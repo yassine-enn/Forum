@@ -43,6 +43,7 @@ func main() {
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
 			}
 		}
+<<<<<<< HEAD
 		// cookie, _ := r.Cookie(r.FormValue("loginUsername"))
 		// user := http.Cookie{
 		// 	Name: "Username", Value: r.FormValue("loginUsername"),
@@ -51,10 +52,13 @@ func main() {
 		// fmt.Println("user:", user)
 		// fmt.Println(w, cookie)
 		// data := Page{isLog}
+=======
+>>>>>>> 8c272f2fd2db5fe26795196fd3db1d65153d1f77
 		fmt.Println(exe.PostDataReader())
 		data := Page{isLog, exe.PostDataReader()}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
+<<<<<<< HEAD
 	http.HandleFunc("/index", func(w http.ResponseWriter, r *http.Request) {
 		session, _ := store.Get(r, "session")
 		_, ok := session.Values["userID"]
@@ -65,6 +69,8 @@ func main() {
 		data := Page{isLog, exe.PostDataReader()}
 		tmpl.ExecuteTemplate(w, "index", data)
 	})
+=======
+>>>>>>> 8c272f2fd2db5fe26795196fd3db1d65153d1f77
 	fileServer := http.FileServer(http.Dir("./template/"))
 	http.Handle("/template/", http.StripPrefix("/template/", fileServer))
 	fmt.Println("Listening on port 8080")

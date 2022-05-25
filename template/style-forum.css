@@ -87,6 +87,7 @@ a[id="user_link"] {
 }
 
 .user_page_button {
+<<<<<<< HEAD
     width: 24px;
     height: 24px;
     margin-block-end: auto;
@@ -99,6 +100,20 @@ a[id="user_link"] {
     border: none;
     margin-block-end: auto;
     cursor: pointer;
+=======
+  width: 24px;
+  height: 24px;
+  margin-block-end: auto;
+}
+
+.logout_button {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  margin-block-end: auto;
+  cursor: pointer;
+>>>>>>> 8c272f2fd2db5fe26795196fd3db1d65153d1f77
 }
 
 .login {
@@ -144,6 +159,7 @@ h1[id="signup"] {
 }
 
 signup {
+<<<<<<< HEAD
     <<<<<<< HEAD display: none;
     z-index: 1;
     display: flex;
@@ -163,6 +179,17 @@ signup {
     width: 100%;
     height: 100%;
     >>>>>>>f0b2a402478d86468392187cfa77eeadeaf08b3f
+=======
+  display: none;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+>>>>>>> 8c272f2fd2db5fe26795196fd3db1d65153d1f77
 }
 
 .signup_container {
@@ -249,6 +276,7 @@ h1[id="login"] {
 }
 
 login {
+<<<<<<< HEAD
     <<<<<<< HEAD display: none;
     z-index: 1;
     display: flex;
@@ -268,6 +296,17 @@ login {
     width: 100%;
     height: 100%;
     >>>>>>>f0b2a402478d86468392187cfa77eeadeaf08b3f
+=======
+  display: none;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+>>>>>>> 8c272f2fd2db5fe26795196fd3db1d65153d1f77
 }
 
 .login_container {
@@ -322,6 +361,7 @@ form[id="login_form"] {
 }
 
 .popup_head {
+<<<<<<< HEAD
     <<<<<<< HEAD display: flex;
     flex-direction: row;
     align-items: center;
@@ -330,25 +370,43 @@ form[id="login_form"] {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+=======
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+>>>>>>> 8c272f2fd2db5fe26795196fd3db1d65153d1f77
 }
 
 
 /********** POST-SECTION *************/
 
 article[id="post"] {
+<<<<<<< HEAD
     top: 10%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     >>>>>>>f0b2a402478d86468392187cfa77eeadeaf08b3f
+=======
+  top: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+>>>>>>> 8c272f2fd2db5fe26795196fd3db1d65153d1f77
 }
 
 
 /********** POST-SECTION *************/
 
 article[id="post"] {
+<<<<<<< HEAD
     <<<<<<< HEAD top: 10%;
+=======
+  margin-top: 10%;
+>>>>>>> 8c272f2fd2db5fe26795196fd3db1d65153d1f77
 }
 
 =======margin-top: 10%;
@@ -402,4 +460,8 @@ article[id="post"] {
     border-color: #498ae4;
     height: fit-content;
 }
+<<<<<<< HEAD
 >>>>>>>f0b2a402478d86468392187cfa77eeadeaf08b3f
+=======
+z
+>>>>>>> 8c272f2fd2db5fe26795196fd3db1d65153d1f77

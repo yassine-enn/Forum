@@ -8,16 +8,56 @@
   </head>
   {{ template "header" .}}
   <article id="post">
-    <div class="post_containe"></div>
-  <form action="/home" id="post_form" method="POST">
-    <input type="text" name="postTitle" placeholder="Post Title" />
-    <textarea name="postContent" placeholder="Post Content"></textarea>
-    <input type="submit" name="submit" value="Envoyer" />
-  </form>
-  <form action = "/home" method="POST">
-    <input type="submit" name="submit" value="like" />
-    <input type="submit" name="submit" value="dislike" />
-    </form>
+    <div class="home_layout">
+      {{ if (eq .IsLoged true )}}
+      <div class="post_creater">
+        <form action="/home" id="post_form" method="POST">
+          <input type="text" name="postTitle" placeholder="Post Title" />
+          <textarea name="postContent" placeholder="Post Content"></textarea>
+          <input type="submit" name="submit" value="Envoyer" />
+        </form>
+      </div>
+      {{ end }}
+      <div class="post_container">
+        {{ range .Post }}
+        <div class="post_frame">
+          <div class="post_content">
+            <div class="post_header">
+              <div class="post_header_left">
+                <p>Category</p>
+              </div>
+              <div class="post_header_right">
+                <p>{{ .Category }}</p>
+              </div>
+            </div>
+            <h1>{{ .PostTitle }}</h1>
+            <div class="post_content_text">{{ .PostContent }}</div>
+            <div class="like_container">like</div>
+            <div class="post_footer">
+              <div class="post_footer_left">
+                <p>{{ .PostDate }}</p>
+              </div>
+              <div class="post_footer_right">
+                <p>button</p>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="like_frame">
+            <p>{{ .PostLike }}</p>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+      <div class="addon_container">
+        <div class="category_container">
+          <h1>Categories</h1>
+        </div>
+        <div class="filter_container">
+          <h1>Filters</h1>
+        </div>
+      </div>
+    </div>
   </article>
 </html>
 
