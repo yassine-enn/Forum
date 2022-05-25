@@ -339,6 +339,7 @@ article[id="post"] {
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: space-around;
+  width: 45%;
 }
 
 .post_frame {
@@ -347,7 +348,8 @@ article[id="post"] {
   border: solid;
   border-color: #498ae4;
   border-width: 2px;
-  border-radius: 2;
+  border-radius: 2px;
+  width: auto;
 }
 
 .post_content {
@@ -356,4 +358,32 @@ article[id="post"] {
   justify-content: space-around;
   width: 100%;
   height: 100%;
+}
+
+.home_layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.addon_container {
+  border: solid;
+  border-color: #498ae4;
+  margin-left: 5%;
+  height: fit-content;
+  border-radius: 2%;
+}
+
+.category_container {
+  border: solid;
+  border-color: #498ae4;
+  height: fit-content;
+}
+
+.filter_container {
+  border: solid;
+  border-color: #498ae4;
+  height: fit-content;
 }
