@@ -30,12 +30,9 @@ func main() {
 			if r.FormValue("signup_button") == "LOG IN" {
 				isLog = exe.Login(r.FormValue("loginUsername"), r.FormValue("loginPassword"))
 				if isLog {
-					// cookie := exe.CookieGenerator(r.FormValue("loginUsername"))
-					// http.SetCookie(w, &cookie)
 					session, _ := store.Get(r, "session")
 					session.Values["userID"] = r.FormValue("loginUsername")
 					session.Save(r, w)
-
 				}
 			} else {
 				fmt.Println("pessi fraude finito")
@@ -47,6 +44,11 @@ func main() {
 		data := Page{isLog, exe.PostDataReader()}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
+
+	http.HandleFunc("/postCreator", func(w http.ResponseWriter, r *http.Request) {
+		tmpl.ExecuteTemplate(w, "postcreator", nil)
+	})
+
 	fileServer := http.FileServer(http.Dir("./template/"))
 	http.Handle("/template/", http.StripPrefix("/template/", fileServer))
 	fmt.Println("Listening on port 8080")

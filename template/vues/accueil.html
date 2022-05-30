@@ -9,63 +9,102 @@
   {{ template "header" .}}
   <article id="post">
     <div class="home_layout">
-      {{ if (eq .IsLoged true )}}
-      <div class="post_creater">
-        <form action="/home" id="post_form" method="POST">
-          <input type="text" name="postTitle" placeholder="Post Title" />
-          <textarea name="postContent" placeholder="Post Content"></textarea>
-          <input type="submit" name="submit" value="Envoyer" />
-        </form>
-      </div>
-      {{ end }}
-      <div class="post_container">
-        {{ range .Post }}
-        <div class="post_frame">
-          <div class="post_margin">
-          <div class="post_content">
-            <div class="post_header">
-              <div class="post_header_left">
-                <p>Category</p>
+      <div class="post_manager">
+        {{ if (eq .IsLoged true )}}
+        <div class="post_creater">
+          <form action="/home" id="post_form" method="POST" onclick="">
+            <input
+              type="text"
+              id="post_input"
+              placeholder="Create a new post"
+              onclick="redirectInput()"
+            />
+          </form>
+        </div>
+        {{ end }}
+        <div class="post_container">
+          {{ range .Post }}
+          <div class="post_frame">
+            <div class="post_margin">
+              <div class="post_content">
+                <div class="post_header">
+                  <div class="post_header_left">
+                    <p>Category</p>
+                  </div>
+                  <div class="post_header_right">
+                    <p>{{ .PostTitle }}</p>
+                  </div>
+                </div>
+                <div class="post_content_text">{{ .PostContent }}</div>
+                <div class="post_footer">
+                  <div class="post_footer_left">
+                    <p>author</p>
+                    <p>{{ .PostDate }}</p>
+                  </div>
+                  <div class="post_footer_right">
+                    <a href="/home"
+                      ><img
+                        src="/template/sources/comment.png"
+                        class="icon_post"
+                    /></a>
+                    <button class="icon_post">
+                      <img
+                        src="/template/sources/save-instagram.png"
+                        class="icon_post"
+                      />
+                    </button>
+                    <button
+                      class="icon_post"
+                      onclick="//faire une fonction js de copie de lien"
+                    >
+                      <img
+                        src="/template/sources/share.png"
+                        class="icon_post"
+                      />
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div class="post_header_right">
-                <p>{{ .PostTitle }}</p>
-              </div>
-            </div>
-            <div class="post_content_text">{{ .PostContent }}</div>
-            <div class="post_footer">
-              <div class="post_footer_left">
-                <p>author</p>
-                <p>{{ .PostDate }}</p>
-              </div>
-              <div class="post_footer_right">
-                <a href="/home"><img src="/template/sources/comment.png" class="icon_post"></a>
-                <button class="icon_post"><img src="/template/sources/save-instagram.png" class="icon_post"></button>
-                <button class="icon_post" onclick="//faire une fonction js de copie de lien"><img src="/template/sources/share.png" class="icon_post"></button>
+              <div class="like_frame">
+                <div class="like_button">
+                  <button class="icon_post">
+                    <img
+                      src="/template//sources/up-arrow.png"
+                      class="icon_post"
+                    />
+                  </button>
+                </div>
+                <p>{{ .PostLike }}</p>
+                <div class="dislike_button">
+                  <button class="icon_post">
+                    <img
+                      src="/template//sources/down-arrow.png"
+                      class="icon_post"
+                    />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-          <div class="like_frame">
-            <div class="like_button">
-              <button class="icon_post"><img src="/template//sources/up-arrow.png" class="icon_post"></button>
-            </div>
-            <p>{{ .PostLike }}</p>
-            <div class="dislike_button">
-              <button class="icon_post"><img src="/template//sources/down-arrow.png" class="icon_post"></button>
-            </div>
-          </div>
+          {{ end }}
         </div>
-        </div>
-      {{ end }}
-    </div>
-    <div class="addon_container">
-      <div class="category_container">
-        <h1>Categories</h1>
       </div>
-      <div class="filter_container">
-        <h1>Filters</h1>
+      <div class="addon_container">
+        <div class="category_container">
+          <h1>Categories</h1>
+        </div>
+        <div class="filter_container">
+          <h1>Filters</h1>
+        </div>
       </div>
     </div>
   </article>
 </html>
+
+<script>
+  function redirectInput() {
+    location.href = "/postCreator";
+  }
+</script>
 
 {{ end }}
