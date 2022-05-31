@@ -33,6 +33,6 @@ type Session struct {
 }
 
 // we'll use this method later to determine if the session has expired
-func (s Session) isExpired() bool {
+func (s Session) IsExpired() bool {
 	return s.Expiry.Before(time.Now())
 }
