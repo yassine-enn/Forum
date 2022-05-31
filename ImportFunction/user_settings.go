@@ -1,27 +1,27 @@
 package ImportFunction
 
 import (
-	"database/sql"
 	"fmt"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Login(username string, password string) bool {
-	db, err := sql.Open("sqlite3", "./ALED")
-	if err != nil {
-		fmt.Println("Echec de l'ouverture de la base")
-		return false
-	}
+type User struct {
+	Username     string
+	PasswordHash string
+}
+
+func Login(username string, password string, session Session) (bool, bool) {
+	db := BddOpener()
 	result, err1 := db.Prepare("SELECT Username, PasswordHash FROM User WHERE Username = ?")
 	if err1 != nil {
 		fmt.Println("erreur lors de la recherche dans la base de donnée", err1)
-		return false
+		return false, false
 	}
 	login, err2 := result.Query(username)
 	if err2 != nil {
 		fmt.Println("erreur lors de la recherche dans la base de donnée", err2)
-		return false
+		return false, false
 	}
 	var UsernameFromDataBase string
 	var PasswordFromDataBase string
@@ -29,15 +29,19 @@ func Login(username string, password string) bool {
 		login.Scan(&UsernameFromDataBase, &PasswordFromDataBase)
 		if err := bcrypt.CompareHashAndPassword([]byte(PasswordFromDataBase), []byte(password)); err != nil {
 			fmt.Println("wrong password")
-			return false
+			return false, false
 		} else {
 			fmt.Println("password was correct")
-			return true
+			if !session.isExpired() {
+				return true, true
+			} else {
+				return false, true
+			}
 		}
 	}
 	result.Close()
 	db.Close()
-	return false
+	return false, false
 }
 
 func Signup(username string, email string, password string) string {
@@ -48,11 +52,7 @@ func Signup(username string, email string, password string) string {
 	if AlreadyExist(username, email) {
 		return "Ce nom d'utilisateur ou cet email existe déjà"
 	}
-	db, err := sql.Open("sqlite3", "./ALED")
-	if err != nil {
-		fmt.Println("Echec de l'ouverture de la base", err)
-		return ""
-	}
+	db := BddOpener()
 	statement, prepareErr := db.Prepare("INSERT INTO User (Username, Email, PasswordHash) VALUES (?,?,?)")
 	if prepareErr != nil {
 		fmt.Println("La préparation de la requête a échoué", prepareErr)
@@ -61,7 +61,7 @@ func Signup(username string, email string, password string) string {
 
 	passwordHash, hashErr := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if hashErr != nil {
-		fmt.Println("Erreur lors de la génération du hash", err)
+		fmt.Println("Erreur lors de la génération du hash")
 		return ""
 	}
 	_, queryErr := statement.Exec(username, email, passwordHash)
@@ -78,11 +78,7 @@ func Signup(username string, email string, password string) string {
 }
 
 func AlreadyExist(username string, email string) bool {
-	db, err := sql.Open("sqlite3", "./ALED")
-	if err != nil {
-		fmt.Println("Echec de l'ouverture de la base", err)
-		return false
-	}
+	db := BddOpener()
 	result, err1 := db.Prepare("SELECT Username, Email FROM User WHERE Username = ? OR Email = ?")
 	if err1 != nil {
 		fmt.Println("erreur lors de la recherche dans la base de donnée", err1)

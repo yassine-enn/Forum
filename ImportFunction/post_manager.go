@@ -1,7 +1,6 @@
 package ImportFunction
 
 import (
-	"database/sql"
 	"fmt"
 	"time"
 )
@@ -18,11 +17,7 @@ type Post struct {
 
 func PostDataReader() []Post {
 	var postTable []Post
-	db, err := sql.Open("sqlite3", "./ALED")
-	if err != nil {
-		fmt.Println("Echec de l'ouverture de la base")
-		return nil
-	}
+	db := BddOpener()
 	result, err1 := db.Query(`SELECT PostID, Date, PostText, PostTitle, likeCounter FROM Post WHERE PostID > 0`)
 	if err1 != nil {
 		fmt.Println("ratio, ", err1)
@@ -44,11 +39,7 @@ func PostDataReader() []Post {
 }
 
 func PostTopic(postText string, postTitle string, postCategory string, postImage string) {
-	db, err := sql.Open("sqlite3", "./ALED")
-	if err != nil {
-		fmt.Println("Echec de l'ouverture de la base", err)
-		return
-	}
+	db := BddOpener()
 	statement, prepareErr := db.Prepare("INSERT INTO Post (Date, PostCategory, PostText, Image, PostTitle, likeCounter) VALUES (?,?,?,?,?,?)")
 	if prepareErr != nil {
 		fmt.Println("La préparation de la requête a échoué", prepareErr)

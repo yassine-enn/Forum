@@ -7,24 +7,11 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func BddReader(wichTable string, condition string) []Post {
-	var posts []Post
-	db, err := sql.Open("sqlite3", "./database/database.db")
+func BddOpener() *sql.DB {
+	db, err := sql.Open("sqlite3", "./ALED")
 	if err != nil {
-		fmt.Println("Error when opening the BDD:", err)
+		fmt.Println("Echec de l'ouverture de la base")
 		return nil
 	}
-	defer db.Close()
-	rows, err := db.Query("SELECT * FROM " + wichTable + " WHERE " + condition)
-	if err != nil {
-		fmt.Println("Error when reading the BDD:", err)
-		return nil
-	}
-	defer rows.Close()
-	for rows.Next() {
-		var post Post
-		rows.Scan(&post.PostID, &post.PostTitle, &post.PostContent, &post.PostDate)
-		posts = append(posts, post)
-	}
-	return posts
+	return db
 }
