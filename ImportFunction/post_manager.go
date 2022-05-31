@@ -41,7 +41,7 @@ func PostDataReader() []Post {
 	return postTable
 }
 
-func PostTopic(postText string, postTitle string) {
+func PostTopic(postText string, postTitle string, postCategory string, postImage string) {
 	db, err := sql.Open("sqlite3", "./ALED")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base", err)

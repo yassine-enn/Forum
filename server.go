@@ -36,7 +36,6 @@ func main() {
 				}
 			} else {
 				fmt.Println("pessi fraude finito")
-				exe.PostTopic(r.FormValue("postContent"), r.FormValue("postTitle"))
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
 			}
 		}
@@ -47,6 +46,10 @@ func main() {
 
 	http.HandleFunc("/postCreator", func(w http.ResponseWriter, r *http.Request) {
 		tmpl.ExecuteTemplate(w, "postcreator", nil)
+		if r.Method == "POST" {
+			// exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"), image)
+			fmt.Println(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"))
+		}
 	})
 
 	fileServer := http.FileServer(http.Dir("./template/"))

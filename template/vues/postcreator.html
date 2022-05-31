@@ -10,6 +10,36 @@
   </head>
   <body>
     {{ template "header" .}}
+    <article id="post_creator">
+        <div class="post_creator_container">
+          <div class="post_creator_form">
+            <form action="/postCreator" id="post_form" method="POST" enctype="multipart/form-data">
+              <input
+                type="text"
+                id="post_input_title"
+                name="post_input_title"
+                placeholder="Post Title"
+                />
+                <textarea
+                    id="post_input_text"
+                    placeholder="Write your Post content here (optional)"
+                    name="post_input_text"
+                ></textarea>
+                <div class="post_creator_addon">
+                  <div class="categories_selector">
+                  <p class="category_text">Category :</p>
+                  <select class="post_category_selector" id="post_input_category">
+                    <option>Fun</option>
+                    <option>News</option>
+                    <option>Tutorial</option>
+                  </select>
+                </div>
+                <input type="file" id="post_input_file" name="post_input_file" accept=".png, .jpg">
+                <input type="submit" id="post_input_submit" value="Create Post" />
+              </div>
+            </form>
+          </div>
+    </article>
   </body>
 </html>
 {{ end }}

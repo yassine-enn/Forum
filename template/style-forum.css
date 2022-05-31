@@ -156,7 +156,7 @@ h1[id="signup"] {
 
 signup {
   display: none;
-  z-index: 99;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -250,7 +250,7 @@ h1[id="login"] {
 
 login {
   display: none;
-  z-index: 99;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -321,7 +321,7 @@ form[id="login_form"] {
 /********** POST-SECTION *************/
 
 article[id="post"] {
-  top: 10%;
+  margin-top: 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -331,7 +331,7 @@ article[id="post"] {
 /********** POST-SECTION *************/
 
 article[id="post"] {
-  margin-top: 10%;
+  top: 10%;
 }
 
 .post_container {
@@ -341,7 +341,6 @@ article[id="post"] {
   justify-content: space-around;
   width: 100%;
 }
-
 .post_frame {
   display: flex;
   flex-direction: row;
@@ -353,7 +352,6 @@ article[id="post"] {
   margin: 1%;
   justify-content: space-between;
 }
-
 .post_content {
   display: flex;
   flex-direction: column;
@@ -361,7 +359,6 @@ article[id="post"] {
   width: 95%;
   height: 200px;
 }
-
 .home_layout {
   display: flex;
   flex-direction: row;
@@ -369,7 +366,6 @@ article[id="post"] {
   width: 100%;
   height: 100%;
 }
-
 .addon_container {
   border: solid;
   border-color: #498ae4;
@@ -377,13 +373,11 @@ article[id="post"] {
   height: fit-content;
   border-radius: 2%;
 }
-
 .category_container {
   border: solid;
   border-color: #498ae4;
   height: fit-content;
 }
-
 .filter_container {
   border: solid;
   border-color: #498ae4;
@@ -461,4 +455,88 @@ input[id="post_input"] {
   border-width: 2px;
   margin: 1%;
   width: 98%;
+}
+
+/******* POST-CREATOR ********/
+
+article[id="post_creator"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10%;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+}
+
+.post_creator_container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 100%;
+}
+
+input[id="post_input_title"] {
+  display: flex;
+  background: none;
+  border: none;
+  border-bottom: solid;
+  border-color: white;
+  border-width: 2px;
+  margin: 1%;
+  width: 98%;
+}
+
+textarea[id="post_input_text"] {
+  display: flex;
+  background: none;
+  border-color: white;
+  border-width: 2px;
+  margin: 1%;
+  min-width: 98%;
+  max-width: 98%;
+  height: 300px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.post_creator_addon {
+  display: flex;
+  flex-direction: row;
+  width: 98%;
+  height: 100%;
+  border: solid;
+  border-color: white;
+  border-width: 2px;
+  margin-left: 1%;
+  justify-content: space-around;
+}
+
+.post_category_selector {
+  background: none;
+  border: none;
+  color: white;
+}
+
+.category_text {
+  font-size: medium;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.categories_selector {
+  display: flex;
+  flex-direction: row;
+}
+
+input[id="post_input_file"] {
+  background: none;
+  cursor: pointer;
+  color: white;
+}
+
+input[id="post_input_submit"] {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
 }
