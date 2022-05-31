@@ -103,7 +103,7 @@ func main() {
 }
 
 func logoutHandler(w http.ResponseWriter, r *http.Request) {
-	tpl, _ := template.ParseFiles("./template/vues/logout.html")
+	// tpl, _ := template.ParseFiles("./template/vues/logout.html")
 	c, _ := r.Cookie("session_token")
 	sessionToken := c.Value
 	delete(sessions, sessionToken)
@@ -114,6 +114,6 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 		Expires: time.Now(),
 	})
 	isLog = false
-	tpl.ExecuteTemplate(w, "logout.html", nil)
-
+	redirect := "/home"
+	http.Redirect(w, r, redirect, http.StatusFound)
 }
