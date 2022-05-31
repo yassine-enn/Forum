@@ -6,7 +6,6 @@
 body {
     background: scroll;
     background-image: url(./sources/fond_forum.jpg);
-    overflow: hidden;
 }
 
 
@@ -145,7 +144,7 @@ h1[id="signup"] {
 
 signup {
     display: none;
-    z-index: 99;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -158,7 +157,7 @@ signup {
 .signup_container {
     border: solid;
     border-color: #498ae4;
-    background-color: rgba(73, 138, 228, 0.2);
+    background-color: rgba(73, 138, 228, 0.7);
     border-radius: 2%;
     width: 100%;
     height: 100%;
@@ -240,7 +239,7 @@ h1[id="login"] {
 
 login {
     display: none;
-    z-index: 99;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -253,7 +252,7 @@ login {
 .login_container {
     border: solid;
     border-color: #498ae4;
-    background-color: rgba(73, 138, 228, 0.2);
+    background-color: rgba(73, 138, 228, 0.7);
     border-radius: 2%;
     width: 100%;
     height: 100%;
@@ -296,7 +295,7 @@ form[id="login_form"] {
     border: none;
 }
 
-.close_popup_button_img {
+.icon {
     width: 24px;
     height: 24px;
 }
@@ -312,7 +311,7 @@ form[id="login_form"] {
 /********** POST-SECTION *************/
 
 article[id="post"] {
-    top: 10%;
+    margin-top: 10%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -323,16 +322,15 @@ article[id="post"] {
 /********** POST-SECTION *************/
 
 article[id="post"] {
-    margin-top: 10%;
+    top: 10%;
 }
 
 .post_container {
-    justify-content: space-between;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: space-around;
-    width: 45%;
+    width: 100%;
 }
 
 .post_frame {
@@ -342,15 +340,17 @@ article[id="post"] {
     border-color: #498ae4;
     border-width: 2px;
     border-radius: 2px;
-    width: auto;
+    height: fit-content;
+    margin: 1%;
+    justify-content: space-between;
 }
 
 .post_content {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    width: 100%;
-    height: 100%;
+    width: 95%;
+    height: 200px;
 }
 
 .home_layout {
@@ -379,4 +379,163 @@ article[id="post"] {
     border: solid;
     border-color: #498ae4;
     height: fit-content;
+}
+
+
+/******** POST *********/
+
+.post_header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.post_header_right {
+    margin-left: 10%;
+}
+
+.like_frame {
+    width: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.post_footer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.post_footer_left {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.post_margin {
+    margin: 2%;
+    display: flex;
+    width: 100%;
+    height: auto;
+}
+
+.post_footer_right {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.icon_post {
+    margin-left: 2%;
+    margin-right: 2%;
+    background: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+}
+
+.post_manager {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+input[id="post_input"] {
+    display: flex;
+    background: none;
+    border: none;
+    border-bottom: solid;
+    border-color: white;
+    border-width: 2px;
+    margin: 1%;
+    width: 98%;
+}
+
+
+/******* POST-CREATOR ********/
+
+article[id="post_creator"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+}
+
+.post_creator_container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+}
+
+input[id="post_input_title"] {
+    display: flex;
+    background: none;
+    border: none;
+    border-bottom: solid;
+    border-color: white;
+    border-width: 2px;
+    margin: 1%;
+    width: 98%;
+}
+
+textarea[id="post_input_text"] {
+    display: flex;
+    background: none;
+    border-color: white;
+    border-width: 2px;
+    margin: 1%;
+    min-width: 98%;
+    max-width: 98%;
+    height: 300px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.post_creator_addon {
+    display: flex;
+    flex-direction: row;
+    width: 98%;
+    height: 100%;
+    border: solid;
+    border-color: white;
+    border-width: 2px;
+    margin-left: 1%;
+    justify-content: space-around;
+}
+
+.post_category_selector {
+    background: none;
+    border: none;
+    color: white;
+}
+
+.category_text {
+    font-size: medium;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.categories_selector {
+    display: flex;
+    flex-direction: row;
+}
+
+input[id="post_input_file"] {
+    background: none;
+    cursor: pointer;
+    color: white;
+}
+
+input[id="post_input_submit"] {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
 }

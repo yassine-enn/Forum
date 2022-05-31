@@ -5,7 +5,6 @@
         <img src="/template/sources/forhum_logo.png" alt="logo" id="logo" />
       </a>
     </div>
-    <a href="/index">index </a>
     <div class="search_bar">
       <form action="/home">
         <input type="text" name="search" placeholder="Rechercher un sujet" />
@@ -29,7 +28,7 @@
    <login class="popup_login">
      <div class="popup_head">
       <h1 id='login'>LOG IN</h1>
-      <button onclick="popupclose(`login`)" class="close_popup_button"><img src="/template/sources/close.png" class="close_popup_button_img"></button>
+      <button onclick="popupclose(`login`)" class="close_popup_button"><img src="/template/sources/close.png" class="icon"></button>
     </div>
       <div id="login_form" class="login_container">
         <form action="/home" id="login_form" method="POST">
@@ -43,7 +42,7 @@
   <signup class="popup_signup">
     <div class="popup_head">
       <h1 id='signup'>SIGN UP</h1>
-      <button onclick="popupclose(`signup`)" class="close_popup_button"><img src="/template/sources/close.png" class="close_popup_button_img"></button>
+      <button onclick="popupclose(`signup`)" class="close_popup_button"><img src="/template/sources/close.png" class="icon"></button>
     </div>
       <div id="signup_form" class="signup_container">
         <form action="/home" id="signup_form" method="POST">
@@ -61,6 +60,7 @@
 <script>
   function popupclose(value) {
     document.getElementsByClassName(`popup_${value}`)[0].style.display = "none";
+
   }
 
   function popupdisplay(value, comptLog, comptSign) {

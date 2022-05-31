@@ -7,23 +7,24 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func ReadBdd() {
-	db, err := sql.Open("sqlite3", "./Forum.db")
+func BddReader(wichTable string, condition string) []Post {
+	var posts []Post
+	db, err := sql.Open("sqlite3", "./database/database.db")
 	if err != nil {
-		fmt.Println("Echec de l'ouverture de la base")
-		return
+		fmt.Println("Error when opening the BDD:", err)
+		return nil
 	}
-	result, err1 := db.Query("SELECT Username, Email FROM User WHERE UserID > 0")
-	if err1 != nil {
-		fmt.Println("ratio, ", err1)
-		return
+	defer db.Close()
+	rows, err := db.Query("SELECT * FROM " + wichTable + " WHERE " + condition)
+	if err != nil {
+		fmt.Println("Error when reading the BDD:", err)
+		return nil
 	}
-	var Username string
-	var Email string
-	for result.Next() {
-		result.Scan(&Username, &Email)
-		fmt.Println(Username, Email)
+	defer rows.Close()
+	for rows.Next() {
+		var post Post
+		rows.Scan(&post.PostID, &post.PostTitle, &post.PostContent, &post.PostLike, &post.PostDate)
+		posts = append(posts, post)
 	}
-	result.Close()
-	db.Close()
+	return posts
 }

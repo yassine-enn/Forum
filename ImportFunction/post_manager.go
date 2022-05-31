@@ -7,7 +7,7 @@ import (
 )
 
 type Post struct {
-	// PostID      int
+	PostID      int
 	PostTitle   string
 	PostContent string
 	PostDate    string
@@ -21,7 +21,7 @@ func PostDataReader() []Post {
 		fmt.Println("Echec de l'ouverture de la base")
 		return nil
 	}
-	result, err1 := db.Query("SELECT PostID, Date, PostText, PostTitle, likeCounter FROM Post WHERE PostID > 0")
+	result, err1 := db.Query(`SELECT PostID, Date, PostText, PostTitle, likeCounter FROM Post WHERE PostID > 0`)
 	if err1 != nil {
 		fmt.Println("ratio, ", err1)
 		return nil
@@ -33,7 +33,7 @@ func PostDataReader() []Post {
 	var PostLike int
 	for result.Next() {
 		result.Scan(&PostID, &PostDate, &PostTitle, &PostText, &PostLike)
-		var post = Post{PostText, PostTitle, PostDate, PostLike}
+		var post = Post{PostID, PostText, PostTitle, PostDate, PostLike}
 		postTable = append(postTable, post)
 	}
 	result.Close()
@@ -41,7 +41,7 @@ func PostDataReader() []Post {
 	return postTable
 }
 
-func PostTopic(postText string, postTitle string) {
+func PostTopic(postText string, postTitle string, postCategory string, postImage string) {
 	db, err := sql.Open("sqlite3", "./ALED")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base", err)
@@ -52,7 +52,8 @@ func PostTopic(postText string, postTitle string) {
 		fmt.Println("La préparation de la requête a échoué", prepareErr)
 		return
 	}
-	_, queryErr := statement.Exec(time.Now(), "", postText, "", postTitle, 0)
+	date := string(time.Now().Format("02-01-2006"))
+	_, queryErr := statement.Exec(date, "", postText, "", postTitle, 0)
 	if queryErr != nil {
 		fmt.Println("Une erreur est survenue durant la requête", queryErr)
 		return
