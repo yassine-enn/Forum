@@ -12,6 +12,8 @@ type Post struct {
 	PostContent string
 	PostDate    string
 	PostLike    int
+	// PostCategory string
+	// PostImage    string
 }
 
 func PostDataReader() []Post {
