@@ -14,28 +14,21 @@ import (
 
 var sessions = map[string]exe.Session{}
 
-// each session contains the username of the user and the time at which it expires
-// type session struct {
-// 	username string
-// 	expiry   time.Time
+// func (s exe.Session) isExpired() bool {
+// 	return s.Expiry.Before(time.Now())
 // }
-
-// we'll use this method later to determine if the session has expired
 
 type Page struct {
 	IsLoged bool
 	Post    []exe.Post
 }
 
-// var data Page
-
-// var store = sessions.NewCookieStore([]byte("super-secret"))
 var isLog bool
 var isCorrectPwd bool
 
+var data Page
+
 func main() {
-	// var isLog bool
-	// var isCorrectPwd bool
 	var sessionToken string
 	tmpl, err := template.ParseGlob("./template/vues/*.html")
 	if err != nil {
@@ -69,7 +62,7 @@ func main() {
 						fmt.Println("s", sessions)
 					}
 				}
-				data := Page{isLog, exe.PostDataReader()}
+				data = Page{isLog, exe.PostDataReader()}
 				tmpl.ExecuteTemplate(w, "acceuil", data)
 			} else {
 				fmt.Println("pessi fraude finito")
@@ -87,7 +80,15 @@ func main() {
 		tmpl.ExecuteTemplate(w, "index", data)
 	})
 	http.HandleFunc("/postCreator", func(w http.ResponseWriter, r *http.Request) {
-		tmpl.ExecuteTemplate(w, "postcreator", nil)
+		c, _ := r.Cookie("session_token")
+		sessionToken := c.Value
+		userSession, _ := sessions[sessionToken]
+		if userSession.IsExpired() {
+			delete(sessions, sessionToken)
+			return
+		}
+		isLog = true
+		tmpl.ExecuteTemplate(w, "postcreator", data)
 		if r.Method == "POST" {
 			// exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"), image)
 			fmt.Println(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"))

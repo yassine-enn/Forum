@@ -32,7 +32,7 @@ func Login(username string, password string, session Session) (bool, bool) {
 			return false, false
 		} else {
 			fmt.Println("password was correct")
-			if !session.isExpired() {
+			if !session.IsExpired() {
 				return true, true
 			} else {
 				return false, true
