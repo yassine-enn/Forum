@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 	"time"
 
 	exe "ImportFunction/ImportFunction"
@@ -24,6 +25,7 @@ type Page struct {
 
 var isLog bool
 var isCorrectPwd bool
+var wichPost int
 
 var data Page
 
@@ -65,6 +67,7 @@ func main() {
 				fmt.Println("pessi fraude finito")
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
 			}
+			fmt.Println("wichPost", wichPost)
 		}
 		fmt.Println("islogF", isLog)
 		data := Page{isLog, exe.PostDataReader("PostID > 0")}
@@ -101,7 +104,8 @@ func main() {
 			return
 		}
 		isLog = true
-		data := Page{isLog, exe.PostDataReader("PostID = " + r.FormValue("post_id"))}
+		wichPost, _ = strconv.Atoi(r.FormValue("post_id"))
+		data := Page{isLog, exe.PostDataReader("PostID = " + strconv.Itoa(wichPost))}
 		tmpl.ExecuteTemplate(w, "post_page", data)
 	})
 

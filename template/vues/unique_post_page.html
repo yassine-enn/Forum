@@ -8,6 +8,74 @@
   </head>
   <body>
     {{ template "header" .}}
+    <article id="post">
+     <div class="post_container">
+          {{ range .Post }}
+          <div class="post_frame">
+            <div class="post_margin">
+              <div class="post_content">
+                <div class="post_header">
+                  <div class="post_header_left">
+                    <p>Category</p>
+                  </div>
+                  <div class="post_header_right">
+                    <p>{{ .PostTitle }}</p>
+                  </div>
+                </div>
+                <div class="post_content_text">{{ .PostContent }}</div>
+                <div class="post_footer">
+                  <div class="post_footer_left">
+                    <p>author</p>
+                    <p>{{ .PostDate }}</p>
+                  </div>
+                  <div class="post_footer_right">
+                    <form action="/post" id="post_footer_form" method="POST">
+                      <button class="icon_post">
+                        <img
+                          src="/template/sources/save-instagram.png"
+                          class="icon_post"
+                          name="add_favorite"
+                        />
+                      </button>
+                    </form>
+                    <button
+                      class="icon_post"
+                      onclick="//faire une fonction js de copie de lien"
+                      name="save_link"
+                    >
+                      <img
+                        src="/template/sources/share.png"
+                        class="icon_post"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="like_frame">
+                <div class="like_button">
+                  <button class="icon_post">
+                    <img
+                      src="/template//sources/up-arrow.png"
+                      class="icon_post"
+                    />
+                  </button>
+                </div>
+                <p>{{ .PostLike }}</p>
+                <div class="dislike_button">
+                  <button class="icon_post">
+                    <img
+                      src="/template//sources/down-arrow.png"
+                      class="icon_post"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+          {{ end }}
+        </div>
+      </div>
   </body>
 </html>
 
