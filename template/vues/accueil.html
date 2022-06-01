@@ -29,7 +29,7 @@
               <div class="post_content">
                 <div class="post_header">
                   <div class="post_header_left">
-                    <p>Category</p>
+                    <p>{{ .PostCategory }}</p>
                   </div>
                   <div class="post_header_right">
                     <p>{{ .PostTitle }}</p>
@@ -38,7 +38,7 @@
                 <div class="post_content_text">{{ .PostContent }}</div>
                 <div class="post_footer">
                   <div class="post_footer_left">
-                    <p>author</p>
+                    <p>{{ .PostAuthor }}</p>
                     <p>{{ .PostDate }}</p>
                   </div>
                   <div class="post_footer_right">
@@ -78,7 +78,7 @@
               </div>
               <div class="like_frame">
                 <div class="like_button">
-                  <form action="/post" id="post_footer_form" method="POST">
+                  <form action="/home" id="post_footer_form" method="POST">
                   <button class="icon_post">
                     <img
                       src="/template//sources/up-arrow.png"

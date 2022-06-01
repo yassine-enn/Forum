@@ -38,12 +38,19 @@ func Login(username string, password string, session Session) (bool, bool) {
 		} else {
 			fmt.Println("password was correct")
 			if !session.IsExpired() {
+				login.Close()
+				result.Close()
+				db.Close()
 				return true, true
 			} else {
+				login.Close()
+				result.Close()
+				db.Close()
 				return false, true
 			}
 		}
 	}
+	login.Close()
 	result.Close()
 	db.Close()
 	return false, false

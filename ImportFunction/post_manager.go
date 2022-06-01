@@ -8,11 +8,12 @@ import (
 
 type Post struct {
 	PostID       int
-	PostTitle    string
-	PostContent  string
 	PostDate     string
-	PostLike     int
 	PostCategory string
+	PostContent  string
+	PostTitle    string
+	PostLike     int
+	PostAuthor   string
 }
 
 func PostDataReader(condition string) []Post {
@@ -24,7 +25,7 @@ func PostDataReader(condition string) []Post {
 		return nil
 	}
 	defer db.Close()
-	result, err1 := db.Query(`SELECT PostID, Date, PostText, PostTitle, likeCounter FROM Post WHERE PostID > 0`)
+	result, err1 := db.Query(`SELECT PostID, date(Date), PostCategory, PostText, PostTitle, likeCounter, PostAuthor FROM Post WHERE ` + condition)
 	if err1 != nil {
 		fmt.Println("ratio, ", err1)
 		return nil
@@ -36,24 +37,42 @@ func PostDataReader(condition string) []Post {
 	var PostDate string
 	var PostLike int
 	var PostCategory string
+	var PostAuthor string
 	for result.Next() {
-		result.Scan(&PostID, &PostDate, &PostTitle, &PostText, &PostLike, &PostCategory)
-		var post = Post{PostID, PostText, PostTitle, PostDate, PostLike, PostCategory}
+		result.Scan(&PostID, &PostDate, &PostCategory, &PostText, &PostTitle, &PostLike, &PostAuthor)
+		var post = Post{PostID, PostDate, PostCategory, PostText, PostTitle, PostLike, PostAuthor}
 		postTable = append(postTable, post)
+		fmt.Println(postTable)
 	}
 	result.Close()
 	db.Close()
 	return postTable
 }
 
-func PostTopic(postText string, postTitle string, postCategory string) {
+func PostTopic(postText string, postTitle string, postCategory string, author string) {
 	db := BddOpener()
-	statement, prepareErr := db.Prepare("INSERT INTO Post (Date, PostCategory, PostText, Image, PostTitle, likeCounter) VALUES (?,?,?,?,?,?)")
+	statement, prepareErr := db.Prepare("INSERT INTO Post (Date, PostCategory, PostText, PostTitle, likeCounter, PostAuthor) VALUES (?,?,?,?,?,?)")
 	if prepareErr != nil {
 		fmt.Println("La préparation de la requête a échoué", prepareErr)
 		return
 	}
-	_, queryErr := statement.Exec(time.Now().Format("02-01-2006"), postCategory, postText, "", postTitle, 0)
+	_, queryErr := statement.Exec(time.Now(), postCategory, postText, postTitle, 0, author)
+	if queryErr != nil {
+		fmt.Println("Une erreur est survenue durant la requête", queryErr)
+		return
+	}
+	statement.Close()
+	db.Close()
+}
+
+func DeleteTopic(ID int) {
+	db := BddOpener()
+	statement, prepareErr := db.Prepare("DELETE FROM Post WHERE PostID = ?")
+	if prepareErr != nil {
+		fmt.Println("La préparation de la requête a échoué", prepareErr)
+		return
+	}
+	_, queryErr := statement.Exec(ID)
 	if queryErr != nil {
 		fmt.Println("Une erreur est survenue durant la requête", queryErr)
 		return
