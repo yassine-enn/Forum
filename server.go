@@ -9,7 +9,6 @@ import (
 	exe "ImportFunction/ImportFunction"
 
 	"github.com/google/uuid"
-	"github.com/gorilla/context"
 )
 
 var sessions = map[string]exe.Session{}
@@ -62,20 +61,18 @@ func main() {
 						fmt.Println("s", sessions)
 					}
 				}
-				data = Page{isLog, exe.PostDataReader()}
-				tmpl.ExecuteTemplate(w, "acceuil", data)
 			} else {
 				fmt.Println("pessi fraude finito")
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
 			}
 		}
 		fmt.Println("islogF", isLog)
-		data := Page{isLog, exe.PostDataReader()}
+		data := Page{isLog, exe.PostDataReader("PostID > 0")}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
 
 	http.HandleFunc("/index", func(w http.ResponseWriter, r *http.Request) {
-		data := Page{isLog, exe.PostDataReader()}
+		data := Page{isLog, exe.PostDataReader("PostID > 0")}
 		fmt.Println("bb", data.IsLoged)
 		tmpl.ExecuteTemplate(w, "index", data)
 	})
@@ -88,22 +85,34 @@ func main() {
 			return
 		}
 		isLog = true
-		tmpl.ExecuteTemplate(w, "postcreator", data)
 		if r.Method == "POST" {
-			// exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"), image)
-			fmt.Println(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"))
+			exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"))
 		}
+		data := Page{isLog, exe.PostDataReader("PostID > 0")}
+		tmpl.ExecuteTemplate(w, "postcreator", data)
+	})
+
+	http.HandleFunc("/post", func(w http.ResponseWriter, r *http.Request) {
+		c, _ := r.Cookie("session_token")
+		sessionToken := c.Value
+		userSession, _ := sessions[sessionToken]
+		if userSession.IsExpired() {
+			delete(sessions, sessionToken)
+			return
+		}
+		isLog = true
+		data := Page{isLog, exe.PostDataReader("PostID = " + r.FormValue("post_id"))}
+		tmpl.ExecuteTemplate(w, "post_page", data)
 	})
 
 	fileServer := http.FileServer(http.Dir("./template/"))
 	http.HandleFunc("/logout", logoutHandler)
 	http.Handle("/template/", http.StripPrefix("/template/", fileServer))
 	fmt.Println("Listening on port 8080")
-	http.ListenAndServe(":8080", context.ClearHandler(http.DefaultServeMux))
+	http.ListenAndServe(":8080", nil)
 }
 
 func logoutHandler(w http.ResponseWriter, r *http.Request) {
-	tpl, _ := template.ParseFiles("./template/vues/logout.html")
 	c, _ := r.Cookie("session_token")
 	sessionToken := c.Value
 	delete(sessions, sessionToken)
@@ -114,6 +123,6 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 		Expires: time.Now(),
 	})
 	isLog = false
-	tpl.ExecuteTemplate(w, "logout.html", nil)
-
+	redirect := "/home"
+	http.Redirect(w, r, redirect, http.StatusFound)
 }

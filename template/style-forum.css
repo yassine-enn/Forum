@@ -1,541 +1,549 @@
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    background: scroll;
-    background-image: url(./sources/fond_forum.jpg);
+  background: scroll;
+  background-image: url(./sources/fond_forum.jpg);
 }
-
 
 /********* HEADER *********/
 
 header {
-    z-index: 10;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 84px;
-    background: linear-gradient( 90deg, #4f8ee5 0.01%, rgba(79, 142, 229, 0) 0.01%, #4f8ee5 0.01%, rgba(79, 142, 229, 0) 31.88%), linear-gradient( 180deg, rgba(181, 24, 236, 0.73) 0%, rgba(3, 224, 191, 0) 0.01%, rgba(3, 224, 191, 0.665365) 0.02%, rgba(3, 224, 191, 0.665365) 0.03%, rgba(3, 224, 191, 0.665365) 100%);
+  z-index: 10;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 84px;
+  background: linear-gradient(
+      90deg,
+      #4f8ee5 0.01%,
+      rgba(79, 142, 229, 0) 0.01%,
+      #4f8ee5 0.01%,
+      rgba(79, 142, 229, 0) 31.88%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(181, 24, 236, 0.73) 0%,
+      rgba(3, 224, 191, 0) 0.01%,
+      rgba(3, 224, 191, 0.665365) 0.02%,
+      rgba(3, 224, 191, 0.665365) 0.03%,
+      rgba(3, 224, 191, 0.665365) 100%
+    );
 }
 
 .logo_container {
-    display: flex;
-    flex-direction: row;
-    height: 100%;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
 }
 
 img[id="logo"] {
-    position: relative;
-    left: 21px;
-    width: 55px;
-    height: 84px;
+  position: relative;
+  left: 21px;
+  width: 55px;
+  height: 84px;
 }
 
 form {
-    margin-block-end: 0 !important;
+  margin-block-end: 0 !important;
 }
 
 .search_bar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 100%;
-    width: 60%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  width: 60%;
 }
 
 input[name="search"] {
-    background: none;
-    border-color: black;
-    width: 385px;
-    height: 36px;
+  background: none;
+  border-color: black;
+  width: 385px;
+  height: 36px;
 }
 
 img[id="search_button"] {
-    position: relative;
-    top: 1px;
-    left: -30px;
-    width: 24px;
-    height: 24px;
+  position: relative;
+  top: 1px;
+  left: -30px;
+  width: 24px;
+  height: 24px;
 }
 
 .buttons_container {
-    width: 20%;
-    justify-content: space-around;
-    right: 0;
-    float: right;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  width: 20%;
+  justify-content: space-around;
+  right: 0;
+  float: right;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .user_container {
-    width: 20%;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
+  width: 20%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
 }
 
 a[id="user_link"] {
-    margin-right: 10%;
+  margin-right: 10%;
 }
 
 .user_page_button {
-    width: 24px;
-    height: 24px;
-    margin-block-end: auto;
+  width: 24px;
+  height: 24px;
+  margin-block-end: auto;
 }
 
 .logout_button {
-    width: 24px;
-    height: 24px;
-    background: none;
-    border: none;
-    margin-block-end: auto;
-    cursor: pointer;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  margin-block-end: auto;
+  cursor: pointer;
 }
 
 .login {
-    cursor: pointer;
-    border: none;
-    background-color: #498ae4;
-    border-radius: 2%;
-    width: 128px;
-    height: 43px;
-    color: white;
-    transition: ease-in, 300ms;
+  cursor: pointer;
+  border: none;
+  background-color: #498ae4;
+  border-radius: 2%;
+  width: 128px;
+  height: 43px;
+  color: white;
+  transition: ease-in, 300ms;
 }
 
 .login:hover {
-    background-color: transparent;
-    border: solid;
-    border-color: #498ae4;
+  background-color: transparent;
+  border: solid;
+  border-color: #498ae4;
 }
 
 .signup:hover {
-    background-color: white;
-    color: #498ae4;
+  background-color: white;
+  color: #498ae4;
 }
 
 .signup {
-    cursor: pointer;
-    border-color: #498ae4;
-    border-style: solid;
-    background-color: transparent;
-    border-radius: 2%;
-    width: 128px;
-    height: 43px;
-    color: white;
-    transition: ease-in, 300ms;
+  cursor: pointer;
+  border-color: #498ae4;
+  border-style: solid;
+  background-color: transparent;
+  border-radius: 2%;
+  width: 128px;
+  height: 43px;
+  color: white;
+  transition: ease-in, 300ms;
 }
-
 
 /********** SIGN UP *************/
 
 h1[id="signup"] {
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 signup {
-    display: none;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    width: 100%;
-    height: 100%;
+  display: none;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 .signup_container {
-    border: solid;
-    border-color: #498ae4;
-    background-color: rgba(73, 138, 228, 0.7);
-    border-radius: 2%;
-    width: 100%;
-    height: 100%;
-    border-width: 4px;
+  border: solid;
+  border-color: #498ae4;
+  background-color: rgba(73, 138, 228, 0.7);
+  border-radius: 2%;
+  width: 100%;
+  height: 100%;
+  border-width: 4px;
 }
 
 form[id="signup_form"] {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
 }
 
 input[id="popup_input"] {
-    background: none;
-    border: none;
-    border-bottom: solid;
-    border-color: white;
-    width: 70%;
-    border-width: 4px;
+  background: none;
+  border: none;
+  border-bottom: solid;
+  border-color: white;
+  width: 70%;
+  border-width: 4px;
 }
 
 ::placeholder {
-    color: white;
+  color: white;
 }
 
 input[name="signup_button"] {
-    height: 8%;
-    width: 40%;
-    border-radius: 5%;
-    border-style: none;
-    color: white;
-    background-color: #498ae4;
-    transition: ease-in, 300ms;
+  height: 8%;
+  width: 40%;
+  border-radius: 5%;
+  border-style: none;
+  color: white;
+  background-color: #498ae4;
+  transition: ease-in, 300ms;
 }
 
 input[name="signup_button"]:hover {
-    background-color: transparent;
-    color: white;
-    border: solid;
-    border-color: #498ae4;
-    border-width: 2px;
+  background-color: transparent;
+  color: white;
+  border: solid;
+  border-color: #498ae4;
+  border-width: 2px;
 }
 
 .signup_add {
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: x-small;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: x-small;
 }
 
 .signup_link_add {
-    color: white;
-    font-size: x-small;
-    font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  font-size: x-small;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .popup_signup {
-    display: none;
-    top: 20%;
-    left: 35%;
-    width: 30%;
-    height: 57%;
-    transition: ease-in, 300ms;
+  display: none;
+  top: 20%;
+  left: 35%;
+  width: 30%;
+  height: 57%;
+  transition: ease-in, 300ms;
 }
 
 .close_button {
-    background-image: url(/sources/close.png);
+  background-image: url(/sources/close.png);
 }
-
 
 /********** LOGIN *************/
 
 h1[id="login"] {
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 login {
-    display: none;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    width: 100%;
-    height: 100%;
+  display: none;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 .login_container {
-    border: solid;
-    border-color: #498ae4;
-    background-color: rgba(73, 138, 228, 0.7);
-    border-radius: 2%;
-    width: 100%;
-    height: 100%;
-    border-width: 4px;
+  border: solid;
+  border-color: #498ae4;
+  background-color: rgba(73, 138, 228, 0.7);
+  border-radius: 2%;
+  width: 100%;
+  height: 100%;
+  border-width: 4px;
 }
 
 form[id="login_form"] {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
 }
 
 .login_add {
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: x-small;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: x-small;
 }
 
 .login_link_add {
-    color: white;
-    font-size: x-small;
-    font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  font-size: x-small;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .popup_login {
-    display: none;
-    top: 20%;
-    left: 35%;
-    width: 30%;
-    height: 40%;
+  display: none;
+  top: 20%;
+  left: 35%;
+  width: 30%;
+  height: 40%;
 }
 
 .close_popup_button {
-    width: 24px;
-    height: 24px;
-    background-color: transparent;
-    border: none;
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  border: none;
 }
 
 .icon {
-    width: 24px;
-    height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 .popup_head {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
-
 
 /********** POST-SECTION *************/
 
 article[id="post"] {
-    margin-top: 10%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
+  margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 }
-
 
 /********** POST-SECTION *************/
 
 article[id="post"] {
-    top: 10%;
+  top: 10%;
 }
 
 .post_container {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
 }
 
 .post_frame {
-    display: flex;
-    flex-direction: row;
-    border: solid;
-    border-color: #498ae4;
-    border-width: 2px;
-    border-radius: 2px;
-    height: fit-content;
-    margin: 1%;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  border: solid;
+  border-color: #498ae4;
+  border-width: 2px;
+  border-radius: 2px;
+  height: fit-content;
+  margin: 1%;
+  justify-content: space-between;
 }
 
 .post_content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 95%;
-    height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 95%;
+  height: 200px;
 }
 
 .home_layout {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .addon_container {
-    border: solid;
-    border-color: #498ae4;
-    margin-left: 5%;
-    height: fit-content;
-    border-radius: 2%;
+  border: solid;
+  border-color: #498ae4;
+  margin-left: 5%;
+  height: fit-content;
+  border-radius: 2%;
 }
 
 .category_container {
-    border: solid;
-    border-color: #498ae4;
-    height: fit-content;
+  border: solid;
+  border-color: #498ae4;
+  height: fit-content;
 }
 
 .filter_container {
-    border: solid;
-    border-color: #498ae4;
-    height: fit-content;
+  border: solid;
+  border-color: #498ae4;
+  height: fit-content;
 }
-
 
 /******** POST *********/
 
 .post_header {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
 
 .post_header_right {
-    margin-left: 10%;
+  margin-left: 10%;
 }
 
 .like_frame {
-    width: 5%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
+  width: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .post_footer {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .post_footer_left {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
 
 .post_margin {
-    margin: 2%;
-    display: flex;
-    width: 100%;
-    height: auto;
+  margin: 2%;
+  display: flex;
+  width: 100%;
+  height: auto;
 }
 
 .post_footer_right {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: flex-end;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-end;
 }
 
 .icon_post {
-    margin-left: 2%;
-    margin-right: 2%;
-    background: none;
-    border: none;
-    height: 16px;
-    width: 16px;
+  margin-left: 2%;
+  margin-right: 2%;
+  background: none;
+  border: none;
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
 }
 
 .post_manager {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
 }
 
 input[id="post_input"] {
-    display: flex;
-    background: none;
-    border: none;
-    border-bottom: solid;
-    border-color: white;
-    border-width: 2px;
-    margin: 1%;
-    width: 98%;
+  display: flex;
+  background: none;
+  border: none;
+  border-bottom: solid;
+  border-color: white;
+  border-width: 2px;
+  margin: 1%;
+  width: 98%;
 }
-
 
 /******* POST-CREATOR ********/
 
 article[id="post_creator"] {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10%;
-    justify-content: space-around;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10%;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
 }
 
 .post_creator_container {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 100%;
 }
 
 input[id="post_input_title"] {
-    display: flex;
-    background: none;
-    border: none;
-    border-bottom: solid;
-    border-color: white;
-    border-width: 2px;
-    margin: 1%;
-    width: 98%;
+  display: flex;
+  background: none;
+  border: none;
+  border-bottom: solid;
+  border-color: white;
+  border-width: 2px;
+  margin: 1%;
+  width: 98%;
 }
 
 textarea[id="post_input_text"] {
-    display: flex;
-    background: none;
-    border-color: white;
-    border-width: 2px;
-    margin: 1%;
-    min-width: 98%;
-    max-width: 98%;
-    height: 300px;
-    font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  background: none;
+  border-color: white;
+  border-width: 2px;
+  margin: 1%;
+  min-width: 98%;
+  max-width: 98%;
+  height: 300px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .post_creator_addon {
-    display: flex;
-    flex-direction: row;
-    width: 98%;
-    height: 100%;
-    border: solid;
-    border-color: white;
-    border-width: 2px;
-    margin-left: 1%;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: row;
+  width: 98%;
+  height: 100%;
+  border: solid;
+  border-color: white;
+  border-width: 2px;
+  margin-left: 1%;
+  justify-content: space-around;
 }
 
 .post_category_selector {
-    background: none;
-    border: none;
-    color: white;
+  background: none;
+  border: none;
+  color: white;
 }
 
 .category_text {
-    font-size: medium;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
+  font-size: medium;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .categories_selector {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 input[id="post_input_file"] {
-    background: none;
-    cursor: pointer;
-    color: white;
+  background: none;
+  cursor: pointer;
+  color: white;
 }
 
 input[id="post_input_submit"] {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
 }

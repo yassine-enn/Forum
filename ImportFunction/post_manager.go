@@ -6,19 +6,18 @@ import (
 )
 
 type Post struct {
-	PostID      int
-	PostTitle   string
-	PostContent string
-	PostDate    string
-	PostLike    int
-	// PostCategory string
-	// PostImage    string
+	PostID       int
+	PostTitle    string
+	PostContent  string
+	PostDate     string
+	PostLike     int
+	PostCategory string
 }
 
-func PostDataReader() []Post {
+func PostDataReader(condition string) []Post {
 	var postTable []Post
 	db := BddOpener()
-	result, err1 := db.Query(`SELECT PostID, Date, PostText, PostTitle, likeCounter FROM Post WHERE PostID > 0`)
+	result, err1 := db.Query(`SELECT PostID, Date, PostText, PostTitle, likeCounter, PostCategory FROM Post WHERE ` + condition)
 	if err1 != nil {
 		fmt.Println("ratio, ", err1)
 		return nil
@@ -28,9 +27,10 @@ func PostDataReader() []Post {
 	var PostText string
 	var PostDate string
 	var PostLike int
+	var PostCategory string
 	for result.Next() {
-		result.Scan(&PostID, &PostDate, &PostTitle, &PostText, &PostLike)
-		var post = Post{PostID, PostText, PostTitle, PostDate, PostLike}
+		result.Scan(&PostID, &PostDate, &PostTitle, &PostText, &PostLike, &PostCategory)
+		var post = Post{PostID, PostText, PostTitle, PostDate, PostLike, PostCategory}
 		postTable = append(postTable, post)
 	}
 	result.Close()
@@ -38,7 +38,7 @@ func PostDataReader() []Post {
 	return postTable
 }
 
-func PostTopic(postText string, postTitle string, postCategory string, postImage string) {
+func PostTopic(postText string, postTitle string, postCategory string) {
 	db := BddOpener()
 	statement, prepareErr := db.Prepare("INSERT INTO Post (Date, PostCategory, PostText, Image, PostTitle, likeCounter) VALUES (?,?,?,?,?,?)")
 	if prepareErr != nil {

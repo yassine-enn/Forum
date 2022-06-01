@@ -42,20 +42,29 @@
                     <p>{{ .PostDate }}</p>
                   </div>
                   <div class="post_footer_right">
-                    <a href="/home"
-                      ><img
+                    <button type="submit" name="comment" class="icon_post">
+                      <img
                         src="/template/sources/comment.png"
                         class="icon_post"
-                    /></a>
+                        name="comment"
+                      />
+                      <input
+                        type="hidden"
+                        value="{{ .PostID }}"
+                        name="post_id"
+                      />
+                    </button>
                     <button class="icon_post">
                       <img
                         src="/template/sources/save-instagram.png"
                         class="icon_post"
+                        name="add_favorite"
                       />
                     </button>
                     <button
                       class="icon_post"
                       onclick="//faire une fonction js de copie de lien"
+                      name="save_link"
                     >
                       <img
                         src="/template/sources/share.png"
