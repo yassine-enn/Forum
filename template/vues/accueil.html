@@ -78,12 +78,14 @@
               </div>
               <div class="like_frame">
                 <div class="like_button">
+                  <form action="/post" id="post_footer_form" method="POST">
                   <button class="icon_post">
                     <img
                       src="/template//sources/up-arrow.png"
                       class="icon_post"
                     />
                   </button>
+                  <input type="hidden" value="{{ .PostID }}" name="post_id_like" />
                 </div>
                 <p>{{ .PostLike }}</p>
                 <div class="dislike_button">
@@ -93,6 +95,8 @@
                       class="icon_post"
                     />
                   </button>
+                  <input type="hidden" value="{{ .PostID }}" name="post_id_dislike" />
+                </form>
                 </div>
               </div>
             </div>
