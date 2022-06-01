@@ -106,9 +106,9 @@ func main() {
 		isLog = true
 		wichPost, _ = strconv.Atoi(r.FormValue("post_id"))
 		data := Page{isLog, exe.PostDataReader("PostID = " + strconv.Itoa(wichPost))}
+		fmt.Println(r.FormValue("post_id_like"))
 		tmpl.ExecuteTemplate(w, "post_page", data)
 	})
-
 	fileServer := http.FileServer(http.Dir("./template/"))
 	http.HandleFunc("/logout", logoutHandler)
 	http.Handle("/template/", http.StripPrefix("/template/", fileServer))

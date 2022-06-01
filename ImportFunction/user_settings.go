@@ -12,15 +12,7 @@ type User struct {
 }
 
 func Login(username string, password string, session Session) (bool, bool) {
-<<<<<<< HEAD
-	db, err := sql.Open("sqlite3", "./forumdb")
-	if err != nil {
-		fmt.Println("Echec de l'ouverture de la base")
-		return false, false
-	}
-=======
 	db := BddOpener()
->>>>>>> 35b068193f0429612d9fe07d79731cbd1afbd2e3
 	result, err1 := db.Prepare("SELECT Username, PasswordHash FROM User WHERE Username = ?")
 	if err1 != nil {
 		fmt.Println("erreur lors de la recherche dans la base de donnée", err1)
