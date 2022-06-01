@@ -62,8 +62,6 @@ func main() {
 						fmt.Println("s", sessions)
 					}
 				}
-				data = Page{isLog, exe.PostDataReader()}
-				tmpl.ExecuteTemplate(w, "acceuil", data)
 			} else {
 				fmt.Println("pessi fraude finito")
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))

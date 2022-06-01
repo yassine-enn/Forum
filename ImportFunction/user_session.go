@@ -15,7 +15,7 @@ import (
 // 	Secure     bool
 // 	HttpOnly   bool
 // 	Raw        string
-// 	Unparsed   []string
+// 	Unparsed   []string																																																																																																																																																																																																																																																																																																																																																																																																																								²²²²²²²²²²²
 // }
 
 // func CookieGenerator(username string) http.Cookie {

@@ -16,7 +16,7 @@ type Post struct {
 
 func PostDataReader() []Post {
 	var postTable []Post
-	db, err := sql.Open("sqlite3", "./ALED")
+	db, err := sql.Open("sqlite3", "./forumdb")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base")
 		return nil
@@ -42,7 +42,7 @@ func PostDataReader() []Post {
 }
 
 func PostTopic(postText string, postTitle string, postCategory string, postImage string) {
-	db, err := sql.Open("sqlite3", "./ALED")
+	db, err := sql.Open("sqlite3", "./forumdb")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base", err)
 		return

@@ -8,7 +8,7 @@ import (
 )
 
 func Login(username string, password string, session Session) (bool, bool) {
-	db, err := sql.Open("sqlite3", "./ALED")
+	db, err := sql.Open("sqlite3", "./forumdb")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base")
 		return false, false
@@ -52,7 +52,7 @@ func Signup(username string, email string, password string) string {
 	if AlreadyExist(username, email) {
 		return "Ce nom d'utilisateur ou cet email existe déjà"
 	}
-	db, err := sql.Open("sqlite3", "./ALED")
+	db, err := sql.Open("sqlite3", "./forumdb")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base", err)
 		return ""
@@ -82,7 +82,7 @@ func Signup(username string, email string, password string) string {
 }
 
 func AlreadyExist(username string, email string) bool {
-	db, err := sql.Open("sqlite3", "./ALED")
+	db, err := sql.Open("sqlite3", "./forumdb")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base", err)
 		return false

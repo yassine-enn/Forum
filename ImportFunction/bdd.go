@@ -9,7 +9,7 @@ import (
 
 func BddReader(wichTable string, condition string) []Post {
 	var posts []Post
-	db, err := sql.Open("sqlite3", "./database/database.db")
+	db, err := sql.Open("sqlite3", "./forumdb")
 	if err != nil {
 		fmt.Println("Error when opening the BDD:", err)
 		return nil
