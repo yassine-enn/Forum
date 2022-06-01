@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 	"time"
 
 	exe "ImportFunction/ImportFunction"
@@ -24,6 +25,7 @@ type Page struct {
 
 var isLog bool
 var isCorrectPwd bool
+var wichPost int
 
 var data Page
 
@@ -65,14 +67,15 @@ func main() {
 				fmt.Println("pessi fraude finito")
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
 			}
+			fmt.Println("wichPost", wichPost)
 		}
 		fmt.Println("islogF", isLog)
-		data = Page{isLog, exe.PostDataReader()}
+		data := Page{isLog, exe.PostDataReader("PostID > 0")}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
 
 	http.HandleFunc("/index", func(w http.ResponseWriter, r *http.Request) {
-		data = Page{isLog, exe.PostDataReader()}
+		data := Page{isLog, exe.PostDataReader("PostID > 0")}
 		fmt.Println("bb", data.IsLoged)
 		tmpl.ExecuteTemplate(w, "index", data)
 	})
@@ -85,12 +88,25 @@ func main() {
 			return
 		}
 		isLog = true
-		data = Page{isLog, exe.PostDataReader()}
 		if r.Method == "POST" {
-			// exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"), image)
-			fmt.Println(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"))
+			exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"))
 		}
+		data := Page{isLog, exe.PostDataReader("PostID > 0")}
 		tmpl.ExecuteTemplate(w, "postcreator", data)
+	})
+
+	http.HandleFunc("/post", func(w http.ResponseWriter, r *http.Request) {
+		c, _ := r.Cookie("session_token")
+		sessionToken := c.Value
+		userSession, _ := sessions[sessionToken]
+		if userSession.IsExpired() {
+			delete(sessions, sessionToken)
+			return
+		}
+		isLog = true
+		wichPost, _ = strconv.Atoi(r.FormValue("post_id"))
+		data := Page{isLog, exe.PostDataReader("PostID = " + strconv.Itoa(wichPost))}
+		tmpl.ExecuteTemplate(w, "post_page", data)
 	})
 
 	fileServer := http.FileServer(http.Dir("./template/"))

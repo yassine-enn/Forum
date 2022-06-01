@@ -1,4 +1,4 @@
-{{ define "acceuil" }}
+{{ define "post_page" }}
 <!DOCTYPE html>
 <html>
   <head>
@@ -6,23 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/template/style-forum.css" />
   </head>
-  {{ template "header" .}}
-  <article id="post">
-    <div class="home_layout">
-      <div class="post_manager">
-        {{ if (eq .IsLoged true )}}
-        <div class="post_creater">
-          <form action="/home" id="post_form" method="POST" onclick="">
-            <input
-              type="text"
-              id="post_input"
-              placeholder="Create a new post"
-              onclick="redirectInput()"
-            />
-          </form>
-        </div>
-        {{ end }}
-        <div class="post_container">
+  <body>
+    {{ template "header" .}}
+    <article id="post">
+     <div class="post_container">
           {{ range .Post }}
           <div class="post_frame">
             <div class="post_margin">
@@ -43,18 +30,6 @@
                   </div>
                   <div class="post_footer_right">
                     <form action="/post" id="post_footer_form" method="POST">
-                      <button type="submit" name="comment" class="icon_post">
-                        <img
-                          src="/template/sources/comment.png"
-                          class="icon_post"
-                          name="comment"
-                        />
-                      </button>
-                      <input
-                        type="hidden"
-                        value="{{ .PostID }}"
-                        name="post_id"
-                      />
                       <button class="icon_post">
                         <img
                           src="/template/sources/save-instagram.png"
@@ -78,48 +53,32 @@
               </div>
               <div class="like_frame">
                 <div class="like_button">
-                  <form action="/post" id="post_footer_form" method="POST">
                   <button class="icon_post">
                     <img
                       src="/template//sources/up-arrow.png"
                       class="icon_post"
                     />
                   </button>
-                  <input type="hidden" value="{{ .PostID }}" name="post_id_like" />
                 </div>
                 <p>{{ .PostLike }}</p>
                 <div class="dislike_button">
-                  <button class="icon_post" >
+                  <button class="icon_post">
                     <img
                       src="/template//sources/down-arrow.png"
                       class="icon_post"
                     />
                   </button>
-                  <input type="hidden" value="{{ .PostID }}" name="post_id_dislike" />
-                </form>
                 </div>
               </div>
             </div>
           </div>
+        </article>
           {{ end }}
         </div>
       </div>
-      <div class="addon_container">
-        <div class="category_container">
-          <h1>Categories</h1>
-        </div>
-        <div class="filter_container">
-          <h1>Filters</h1>
-        </div>
-      </div>
-    </div>
-  </article>
+  </body>
 </html>
 
-<script>
-  function redirectInput() {
-    location.href = "/postCreator";
-  }
-</script>
+<script></script>
 
 {{ end }}
