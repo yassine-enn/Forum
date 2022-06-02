@@ -64,7 +64,6 @@ func main() {
 					}
 				}
 			} else if r.FormValue("signup_button") == "SIGN UP" {
-				fmt.Println("pessi fraude finito")
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
 			}
 			fmt.Println("wichPost", wichPost)
