@@ -39,9 +39,11 @@ func main() {
 		fmt.Println("Template loading Error:", err)
 		return
 	}
+	// It's a function that redirects to the er404.html page if the user enters a wrong url.
 	http.HandleFunc("/", Er404)
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
+			// This is the code that allows the user to log in.
 			if r.FormValue("signup_button") == "LOG IN" {
 				isLog, isCorrectPwd = exe.Login(r.FormValue("loginUsername"), r.FormValue("loginPassword"), sessions[sessionToken])
 				fmt.Println("isLog", isLog, "isCorrectPwd", isCorrectPwd)
@@ -70,8 +72,9 @@ func main() {
 				}
 			} else if r.FormValue("signup_button") == "SIGN UP" {
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
-			}
+			} // This is the code that allows the user to sign up.
 		}
+		// It's the code that allows the user to go to the next page or the previous page.
 		if r.FormValue("next_page") == "next" {
 			paginValue += 10
 			whatPage += 1
@@ -82,11 +85,13 @@ func main() {
 		whichPage := strconv.Itoa(paginValue)
 		maxPage := math.Ceil(float64(exe.HowManyRow()) / 10)
 		postToShow = exe.PostDataReader("PostID > 0", `LIMIT '10' OFFSET `+whichPage)
+		// It's the code that allows the user to search for a post.
 		if r.FormValue("search") != "" {
 			postToShow = exe.PostDataReader("PostText LIKE '%"+r.FormValue("search")+"%' OR PostTitle LIKE '%"+r.FormValue("search")+"%' OR PostCategory LIKE '%"+r.FormValue("search")+"%' OR PostAuthor LIKE '%"+r.FormValue("search")+"%'", "")
+
 		} else if r.FormValue("category_filter") != "" {
 			postToShow = exe.PostDataReader("PostCategory = '"+r.FormValue("category_filter")+"'", "")
-		}
+		} // It's the code that allows the user to filter the posts by category.
 		data := Page{isLog, postToShow, nil, exe.CategoryReader(), int(maxPage), whatPage}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
@@ -94,6 +99,7 @@ func main() {
 	http.HandleFunc("/dislike", dislikeHandler)
 
 	http.HandleFunc("/postCreator", func(w http.ResponseWriter, r *http.Request) {
+		// It's a code that allows the user to stay logged in, by checking if a session is opened.
 		c, _ := r.Cookie("session_token")
 		if c == nil {
 			redirect := "/home"
