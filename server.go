@@ -21,6 +21,7 @@ var sessions = map[string]exe.Session{}
 type Page struct {
 	IsLoged bool
 	Post    []exe.Post
+	Comment []exe.Comment
 }
 
 var isLog bool
@@ -62,7 +63,6 @@ func main() {
 					}
 				}
 			} else if r.FormValue("signup_button") == "SIGN UP" {
-				fmt.Println("pessi fraude finito")
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
 			}
 			fmt.Println("wichPost", wichPost)
@@ -79,7 +79,7 @@ func main() {
 			exe.DislikePost(postIdDislike)
 		}
 		fmt.Println("islogF", isLog)
-		data := Page{isLog, exe.PostDataReader("PostID > 0", "Post")}
+		data := Page{isLog, exe.PostDataReader("PostID > 0"), nil}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
 
@@ -98,18 +98,20 @@ func main() {
 		}
 		userSession, _ := sessions[sessionToken]
 		if userSession.IsExpired() {
+			isLog = false
 			redirect := "/home"
 			http.Redirect(w, r, redirect, http.StatusFound)
 			return
 		}
 		if r.Method == "POST" {
-			exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"), userSession.Username, "Post")
+			exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"), userSession.Username)
 		}
-		data := Page{isLog, exe.PostDataReader("PostID > 0", "Post")}
+		data := Page{isLog, exe.PostDataReader("PostID > 0"), nil}
 		tmpl.ExecuteTemplate(w, "postcreator", data)
 	})
 
 	http.HandleFunc("/post", func(w http.ResponseWriter, r *http.Request) {
+		wichPost, _ = strconv.Atoi(r.FormValue("post_id"))
 		c, _ := r.Cookie("session_token")
 		if c == nil {
 			redirect := "/home"
@@ -122,21 +124,28 @@ func main() {
 			http.Redirect(w, r, redirect, http.StatusFound)
 			return
 		}
-		userSession, _ := sessions[sessionToken]
+		userSession := sessions[sessionToken]
 		if userSession.IsExpired() {
+			isLog = false
 			redirect := "/home"
 			http.Redirect(w, r, redirect, http.StatusFound)
 			return
 		}
-		wichPost, _ = strconv.Atoi(r.FormValue("post_id"))
-		data := Page{isLog, exe.PostDataReader("PostID = "+strconv.Itoa(wichPost), "Post")}
+		if r.Method == "POST" {
+			wichPost, _ = strconv.Atoi(r.FormValue("post_id"))
+			if r.FormValue("comment_content") != "" {
+				exe.CommentTopic(r.FormValue("comment_content"), wichPost, userSession.Username)
+			}
+		}
+		data := Page{isLog, exe.PostDataReader("PostID = " + strconv.Itoa(wichPost)), exe.CommentDataReader("CommentSource = " + strconv.Itoa(wichPost))}
 		tmpl.ExecuteTemplate(w, "post_page", data)
 	})
+
 	fileServer := http.FileServer(http.Dir("./template/"))
 	http.HandleFunc("/logout", logoutHandler)
 	http.Handle("/template/", http.StripPrefix("/template/", fileServer))
 	fmt.Println("Listening on port 8080")
-	http.ListenAndServe("0.0.0.0:8080", nil)
+	http.ListenAndServe(":8080", nil)
 }
 
 func logoutHandler(w http.ResponseWriter, r *http.Request) {
