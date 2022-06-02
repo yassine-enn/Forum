@@ -156,9 +156,9 @@ func dislikeHandler(w http.ResponseWriter, r *http.Request) {
 	isLog = true
 	fmt.Println("dislike", r.FormValue("post_id_dislike"), username)
 	postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
-	exe.GetLikes(postIdDislike)
 	exe.DislikePostDB(postIdDislike, username, isLog)
 	exe.GetDislikes(postIdDislike)
+	exe.GetLikes(postIdDislike)
 	http.Redirect(w, r, "/home", http.StatusFound)
 }
 

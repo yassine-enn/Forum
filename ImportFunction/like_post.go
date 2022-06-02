@@ -266,6 +266,7 @@ func GetLikes(postID int) {
 	for result.Next() {
 		result.Scan(&likes)
 	}
+	fmt.Println(likes, "likes")
 	db, _ = sql.Open("sqlite3", "./databaseForum")
 	statement, _ = db.Prepare("UPDATE Post SET likeCounter = ? WHERE PostID = ?")
 	_, _ = statement.Exec(likes-GetDislikes(postID), postID)
@@ -294,5 +295,6 @@ func GetDislikes(postID int) int {
 	for result.Next() {
 		result.Scan(&dislikes)
 	}
+	fmt.Println(dislikes, "dislikes")
 	return dislikes
 }
