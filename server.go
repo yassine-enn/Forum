@@ -39,7 +39,7 @@ func main() {
 		fmt.Println("Template loading Error:", err)
 		return
 	}
-
+	http.HandleFunc("/", Er404)
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			if r.FormValue("signup_button") == "LOG IN" {
@@ -81,11 +81,11 @@ func main() {
 		}
 		whichPage := strconv.Itoa(paginValue)
 		maxPage := math.Ceil(float64(exe.HowManyRow()) / 10)
-		postToShow = exe.PostDataReader("PostID > 0", whichPage)
+		postToShow = exe.PostDataReader("PostID > 0", `LIMIT '10' OFFSET `+whichPage)
 		if r.FormValue("search") != "" {
-			postToShow = exe.PostDataReader("PostText LIKE '%"+r.FormValue("search")+"%' OR PostTitle LIKE '%"+r.FormValue("search")+"%' OR PostCategory LIKE '%"+r.FormValue("search")+"%' OR PostAuthor LIKE '%"+r.FormValue("search")+"%'", whichPage)
+			postToShow = exe.PostDataReader("PostText LIKE '%"+r.FormValue("search")+"%' OR PostTitle LIKE '%"+r.FormValue("search")+"%' OR PostCategory LIKE '%"+r.FormValue("search")+"%' OR PostAuthor LIKE '%"+r.FormValue("search")+"%'", "")
 		} else if r.FormValue("category_filter") != "" {
-			postToShow = exe.PostDataReader("PostCategory = '"+r.FormValue("category_filter")+"'", whichPage)
+			postToShow = exe.PostDataReader("PostCategory = '"+r.FormValue("category_filter")+"'", "")
 		}
 		data := Page{isLog, postToShow, nil, exe.CategoryReader(), int(maxPage), whatPage}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
@@ -225,4 +225,8 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 	isLog = false
 	redirect := "/home"
 	http.Redirect(w, r, redirect, http.StatusFound)
+}
+
+func Er404(w http.ResponseWriter, r *http.Request) {
+	template.Must(template.ParseFiles("template/vues/err404.html")).ExecuteTemplate(w, "err404.html", nil) //opening of the er404.html page
 }
