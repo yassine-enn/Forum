@@ -22,6 +22,7 @@ type Page struct {
 	Categories  []exe.Category
 	HowManyPage int
 	WhichPage   int
+	Username    string
 }
 
 var isLog bool
@@ -92,7 +93,7 @@ func main() {
 		} else if r.FormValue("category_filter") != "" {
 			postToShow = exe.PostDataReader("PostCategory = '"+r.FormValue("category_filter")+"'", "")
 		} // It's the code that allows the user to filter the posts by category.
-		data := Page{isLog, postToShow, nil, exe.CategoryReader(), int(maxPage), whatPage}
+		data := Page{isLog, postToShow, nil, exe.CategoryReader(), int(maxPage), whatPage, ""}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
 	http.HandleFunc("/like", likeHandler)
@@ -119,6 +120,7 @@ func main() {
 			http.Redirect(w, r, redirect, http.StatusFound)
 			return
 		}
+		// It's the code that allows the user to create a post.
 		if r.Method == "POST" {
 			if r.FormValue("post_input_new_category") != "" {
 				exe.AddCategory(r.FormValue("post_input_new_category"))
@@ -127,7 +129,7 @@ func main() {
 				exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"), userSession.Username)
 			}
 		}
-		data := Page{isLog, nil, nil, nil, 0, 0}
+		data := Page{isLog, nil, nil, exe.CategoryReader(), 0, 0, ""}
 		tmpl.ExecuteTemplate(w, "postcreator", data)
 	})
 
@@ -152,14 +154,41 @@ func main() {
 			http.Redirect(w, r, redirect, http.StatusFound)
 			return
 		}
+		// It's the code that allows the user to create a comment.
 		if r.Method == "POST" {
 			wichPost, _ = strconv.Atoi(r.FormValue("post_id"))
 			if r.FormValue("comment_content") != "" {
 				exe.CommentTopic(r.FormValue("comment_content"), wichPost, userSession.Username)
 			}
 		}
-		data := Page{isLog, exe.PostDataReader("PostID = "+strconv.Itoa(wichPost), "10"), exe.CommentDataReader("CommentSource = " + strconv.Itoa(wichPost)), exe.CategoryReader(), 0, 0}
+		data := Page{isLog, exe.PostDataReader("PostID = "+strconv.Itoa(wichPost), ""), exe.CommentDataReader("CommentSource = " + strconv.Itoa(wichPost)), exe.CategoryReader(), 0, 0, ""}
 		tmpl.ExecuteTemplate(w, "post_page", data)
+	})
+
+	http.HandleFunc("/profil", func(w http.ResponseWriter, r *http.Request) {
+		wichPost, _ = strconv.Atoi(r.FormValue("post_id"))
+		c, _ := r.Cookie("session_token")
+		if c == nil {
+			redirect := "/home"
+			http.Redirect(w, r, redirect, http.StatusFound)
+			return
+		}
+		sessionToken := c.Value
+		if sessionToken == "" {
+			redirect := "/home"
+			http.Redirect(w, r, redirect, http.StatusFound)
+			return
+		}
+		userSession := sessions[sessionToken]
+		if userSession.IsExpired() {
+			isLog = false
+			redirect := "/home"
+			http.Redirect(w, r, redirect, http.StatusFound)
+			return
+		}
+		data := Page{isLog, exe.PostDataReader("PostAuthor = '"+userSession.Username+"'", ""), nil, exe.CategoryReader(), 0, 0, userSession.Username}
+		tmpl.ExecuteTemplate(w, "profil", data)
+
 	})
 
 	fileServer := http.FileServer(http.Dir("./template/"))
@@ -189,6 +218,7 @@ func likeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	isLog = true
 	fmt.Println("like", r.FormValue("post_id_like"))
+	// It's the code that allows the user to like a post.
 	postIdLike, _ := strconv.Atoi(r.FormValue("post_id_like"))
 	exe.GetLikes(postIdLike)
 	exe.LikePostDb(postIdLike, username, isLog)
@@ -210,6 +240,7 @@ func dislikeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	isLog = true
+	// It's the code that allows the user to dislike a post.
 	fmt.Println("dislike", r.FormValue("post_id_dislike"), username)
 	postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
 	exe.DislikePostDB(postIdDislike, username, isLog)
@@ -219,6 +250,7 @@ func dislikeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func logoutHandler(w http.ResponseWriter, r *http.Request) {
+	// It's the code that allows the user to log out.
 	c, _ := r.Cookie("session_token")
 	sessionToken := c.Value
 	delete(sessions, sessionToken)
