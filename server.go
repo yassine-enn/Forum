@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"math"
 	"net/http"
 	"strconv"
 	"time"
@@ -14,15 +15,13 @@ import (
 
 var sessions = map[string]exe.Session{}
 
-// func (s exe.Session) isExpired() bool {
-// 	return s.Expiry.Before(time.Now())
-// }
-
 type Page struct {
-	IsLoged    bool
-	Post       []exe.Post
-	Comment    []exe.Comment
-	Categories []exe.Category
+	IsLoged     bool
+	Post        []exe.Post
+	Comment     []exe.Comment
+	Categories  []exe.Category
+	HowManyPage int
+	WhichPage   int
 }
 
 var isLog bool
@@ -30,12 +29,8 @@ var isCorrectPwd bool
 var wichPost int
 var username string
 var postToShow []exe.Post
-
-// var hasLiked = false
-// var hasDisliked = false
-// var likeNum = 0
-// var dislikeNum = 0
-// var data Page
+var paginValue = 1
+var whatPage = 1
 
 func main() {
 	var sessionToken string
@@ -44,6 +39,7 @@ func main() {
 		fmt.Println("Template loading Error:", err)
 		return
 	}
+
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			if r.FormValue("signup_button") == "LOG IN" {
@@ -75,27 +71,23 @@ func main() {
 			} else if r.FormValue("signup_button") == "SIGN UP" {
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
 			}
-			fmt.Println("wichPost", wichPost)
 		}
-
-		// fmt.Println("like", r.FormValue("post_id_like"))
-		// postIdLike, _ := strconv.Atoi(r.FormValue("post_id_like"))
-		// if r.FormValue("post_id_like") != "" {
-		// 	exe.LikePost(postIdLike)
-		// }
-		// fmt.Println("dislike", r.FormValue("post_id_dislike"))
-		// postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
-		// if r.FormValue("post_id_dislike") != "" {
-		// 	exe.DislikePost(postIdDislike)
-		// }
-		postToShow = exe.PostDataReader("PostID > 0")
+		if r.FormValue("next_page") == "next" {
+			paginValue += 10
+			whatPage += 1
+		} else if r.FormValue("previous_page") == "previous" {
+			paginValue -= 10
+			whatPage -= 1
+		}
+		whichPage := strconv.Itoa(paginValue)
+		maxPage := math.Ceil(float64(exe.HowManyRow()) / 10)
+		postToShow = exe.PostDataReader("PostID > 0", whichPage)
 		if r.FormValue("search") != "" {
-			postToShow = exe.PostDataReader("PostText LIKE '%" + r.FormValue("search") + "%' OR PostTitle LIKE '%" + r.FormValue("search") + "%'")
+			postToShow = exe.PostDataReader("PostText LIKE '%"+r.FormValue("search")+"%' OR PostTitle LIKE '%"+r.FormValue("search")+"%' OR PostCategory LIKE '%"+r.FormValue("search")+"%' OR PostAuthor LIKE '%"+r.FormValue("search")+"%'", whichPage)
 		} else if r.FormValue("category_filter") != "" {
-			postToShow = exe.PostDataReader("PostCategory = '" + r.FormValue("category_filter") + "'")
+			postToShow = exe.PostDataReader("PostCategory = '"+r.FormValue("category_filter")+"'", whichPage)
 		}
-		fmt.Println("islogF", isLog)
-		data := Page{isLog, postToShow, nil, exe.CategoryReader()}
+		data := Page{isLog, postToShow, nil, exe.CategoryReader(), int(maxPage), whatPage}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
 	http.HandleFunc("/like", likeHandler)
@@ -129,7 +121,7 @@ func main() {
 				exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"), userSession.Username)
 			}
 		}
-		data := Page{isLog, exe.PostDataReader("PostID > 0"), nil, exe.CategoryReader()}
+		data := Page{isLog, nil, nil, nil, 0, 0}
 		tmpl.ExecuteTemplate(w, "postcreator", data)
 	})
 
@@ -160,7 +152,7 @@ func main() {
 				exe.CommentTopic(r.FormValue("comment_content"), wichPost, userSession.Username)
 			}
 		}
-		data := Page{isLog, exe.PostDataReader("PostID = " + strconv.Itoa(wichPost)), exe.CommentDataReader("CommentSource = " + strconv.Itoa(wichPost)), exe.CategoryReader()}
+		data := Page{isLog, exe.PostDataReader("PostID = "+strconv.Itoa(wichPost), "10"), exe.CommentDataReader("CommentSource = " + strconv.Itoa(wichPost)), exe.CategoryReader(), 0, 0}
 		tmpl.ExecuteTemplate(w, "post_page", data)
 	})
 
@@ -214,9 +206,9 @@ func dislikeHandler(w http.ResponseWriter, r *http.Request) {
 	isLog = true
 	fmt.Println("dislike", r.FormValue("post_id_dislike"), username)
 	postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
-	exe.GetLikes(postIdDislike)
 	exe.DislikePostDB(postIdDislike, username, isLog)
 	exe.GetDislikes(postIdDislike)
+	exe.GetLikes(postIdDislike)
 	http.Redirect(w, r, "/home", http.StatusFound)
 }
 

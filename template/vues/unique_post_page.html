@@ -52,24 +52,35 @@
                 </div>
               </div>
               <div class="like_frame">
-                <div class="like_button">
-                  <button class="icon_post">
-                    <img
-                      src="/template//sources/up-arrow.png"
-                      class="icon_post"
+                 <form action="/like" id="post_footer_form" method="POST">
+                    <button class="icon_post">
+                      <img
+                        src="/template//sources/up-arrow.png"
+                        class="icon_post"
+                      />
+                    </button>
+                    <input
+                      type="hidden"
+                      value="{{ .PostID }}"
+                      name="post_id_like"
                     />
-                  </button>
-                </div>
+                  </form>
                 <p>{{ .PostLike }}</p>
                 <div class="dislike_button">
-                  <button class="icon_post">
-                    <img
-                      src="/template//sources/down-arrow.png"
-                      class="icon_post"
+                  <form action="/dislike" id="post_footer_form" method="POST">
+                    <button class="icon_post">
+                      <img
+                        src="/template//sources/down-arrow.png"
+                        class="icon_post"
+                      />
+                    </button>
+                    <input
+                      type="hidden"
+                      value="{{ .PostID }}"
+                      name="post_id_dislike"
                     />
-                  </button>
+                  </form>
                 </div>
-              </div>
             </div>
           </div>
         </article>
@@ -92,6 +103,7 @@
             </div>
             {{ end }}
         </div>
+
       </div>
   </body>
 </html>

@@ -29,11 +29,11 @@ type Category struct {
 	CategoryName string
 }
 
-func PostDataReader(condition string) []Post {
+func PostDataReader(condition string, paginValue string) []Post {
 	var postTable []Post
 	db := BddOpener()
 	defer db.Close()
-	result, err1 := db.Query(`SELECT PostID, date(Date), PostCategory, PostText, PostTitle, likeCounter, PostAuthor FROM Post WHERE ` + condition + ` ORDER BY PostID DESC`)
+	result, err1 := db.Query(`SELECT PostID, date(Date), PostCategory, PostText, PostTitle, likeCounter, PostAuthor FROM Post WHERE ` + condition + ` ORDER BY PostID DESC LIMIT '10' OFFSET ` + paginValue)
 	if err1 != nil {
 		fmt.Println("ratio, ", err1)
 		return nil
@@ -165,4 +165,21 @@ func CategoryReader() []Category {
 	result.Close()
 	db.Close()
 	return Categories
+}
+
+func HowManyRow() int {
+	db := BddOpener()
+	result, err1 := db.Query("SELECT COUNT(*) FROM Post")
+	if err1 != nil {
+		fmt.Println("ratio, ", err1)
+		return 0
+	}
+	defer result.Close()
+	var count int
+	for result.Next() {
+		result.Scan(&count)
+	}
+	result.Close()
+	db.Close()
+	return count
 }

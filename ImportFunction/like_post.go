@@ -5,103 +5,6 @@ import (
 	"fmt"
 )
 
-// func LikePost(postID int, isLog bool, hasLiked bool, hasDiskliked bool) {
-// 	if hasLiked {
-// 		return
-// 	}
-// 	if hasDiskliked {
-// 		hasDiskliked = false
-// 	}
-// 	if !isLog {
-// 		return
-// 	}
-// 	db, err := sql.Open("sqlite3", "./forumdb")
-// 	if err != nil {
-// 		fmt.Println("Error when opening the DB:", err)
-// 		return
-// 	}
-// 	defer db.Close()
-// 	statement, prepareErr := db.Prepare("UPDATE Post SET likeCounter = likeCounter + 1 WHERE PostID = ?")
-// 	if prepareErr != nil {
-// 		fmt.Println("Error when preparing the statement:", prepareErr)
-// 		return
-// 	}
-// 	_, queryErr := statement.Exec(postID)
-// 	if queryErr != nil {
-// 		fmt.Println("Error when querying the statement:", queryErr)
-// 		return
-// 	}
-// 	db.Close()
-// }
-
-// func DislikePost(postID int, isLog bool, hasDisliked bool, hasLiked bool) {
-// 	if hasDisliked {
-// 		return
-// 	}
-// 	if hasLiked {
-// 		hasLiked = false
-// 	}
-// 	if !isLog {
-// 		return
-// 	}
-// 	db, err := sql.Open("sqlite3", "./forumdb")
-// 	if err != nil {
-// 		fmt.Println("Error when opening the DB:", err)
-// 		return
-// 	}
-// 	// defer db.Close()
-// 	statement, prepareErr := db.Prepare("UPDATE Post SET likeCounter = likeCounter - 1 WHERE PostID = ?")
-// 	if prepareErr != nil {
-// 		fmt.Println("Error when preparing the statement:", prepareErr)
-// 		return
-// 	}
-// 	_, queryErr := statement.Exec(postID)
-// 	if queryErr != nil {
-// 		fmt.Println("Error when querying the statement:", queryErr)
-// 		return
-// 	}
-// 	db.Close()
-// }
-
-// func hasAlreadyLiked(postID int, isLog bool) bool {
-// 	if !isLog {
-// 		return false
-// 	}
-// 	db, err := sql.Open("sqlite3", "./databaseForum")
-// 	if err != nil {
-// 		fmt.Println("Error when opening the DB:", err)
-// 		return false
-// 	}
-// 	defer db.Close()
-// 	statement, prepareErr := db.Prepare("SELECT likeCounter FROM Post WHERE PostID = ?")
-// 	if prepareErr != nil {
-// 		fmt.Println("Error when preparing the statement:", prepareErr)
-// 		return false
-// 	}
-// 	result, queryErr := statement.Query(postID)
-// 	if queryErr != nil {
-// 		fmt.Println("Error when querying the statement:", queryErr)
-// 		return false
-// 	}
-// 	defer result.Close()
-// 	var likeCounter int
-// 	for result.Next() {
-// 		result.Scan(&likeCounter)
-// 	}
-// 	if likeCounter > 0 {
-// 		return true
-// 	}
-// 	return false
-// }
-
-// func hasAlreadyLiked(username string, postID int) bool {
-
-// }
-
-// func hasAlreadyDisliked(username string, postID int) bool {
-
-// }
-
 func LikePostDb(postID int, username string, isLog bool) {
 	if !isLog {
 		return
@@ -247,6 +150,7 @@ func GetLikes(postID int) {
 	for result.Next() {
 		result.Scan(&likes)
 	}
+	fmt.Println(likes, "likes")
 	db, _ = sql.Open("sqlite3", "./databaseForum")
 	statement, _ = db.Prepare("UPDATE Post SET likeCounter = ? WHERE PostID = ?")
 	_, _ = statement.Exec(likes-GetDislikes(postID), postID)
@@ -271,5 +175,6 @@ func GetDislikes(postID int) int {
 	for result.Next() {
 		result.Scan(&dislikes)
 	}
+	fmt.Println(dislikes, "dislikes")
 	return dislikes
 }
