@@ -69,12 +69,17 @@ func main() {
 			}
 			fmt.Println("wichPost", wichPost)
 		}
+
 		fmt.Println("like", r.FormValue("post_id_like"))
 		postIdLike, _ := strconv.Atoi(r.FormValue("post_id_like"))
-		exe.LikePost(postIdLike)
+		if r.FormValue("post_id_like") != "" {
+			exe.LikePost(postIdLike)
+		}
 		fmt.Println("dislike", r.FormValue("post_id_dislike"))
 		postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
-		exe.DislikePost(postIdDislike)
+		if r.FormValue("post_id_dislike") != "" {
+			exe.DislikePost(postIdDislike)
+		}
 		fmt.Println("islogF", isLog)
 		data := Page{isLog, exe.PostDataReader("PostID > 0")}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
