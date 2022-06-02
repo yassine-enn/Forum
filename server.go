@@ -48,7 +48,7 @@ func main() {
 				fmt.Println("isLog", isLog, "isCorrectPwd", isCorrectPwd)
 				if isCorrectPwd {
 					sessionToken = uuid.NewString()
-					expiresAt := time.Now().Add(120 * time.Second)
+					expiresAt := time.Now().Add(3600 * time.Second)
 					// Set the token in the session map, along with the session information
 					sessions[sessionToken] = exe.Session{
 						Username: r.FormValue("loginUsername"),
@@ -129,17 +129,36 @@ func main() {
 }
 
 func likeHandler(w http.ResponseWriter, r *http.Request) {
-
+	c, _ := r.Cookie("session_token")
+	sessionToken := c.Value
+	userSession, _ := sessions[sessionToken]
+	if userSession.IsExpired() {
+		delete(sessions, sessionToken)
+		return
+	}
+	isLog = true
 	fmt.Println("like", r.FormValue("post_id_like"))
 	postIdLike, _ := strconv.Atoi(r.FormValue("post_id_like"))
+	exe.GetLikes(postIdLike)
 	exe.LikePostDb(postIdLike, username, isLog)
+	exe.GetLikes(postIdLike)
 	http.Redirect(w, r, "/home", http.StatusFound)
 }
 
 func dislikeHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("dislike", r.FormValue("post_id_dislike"))
+	c, _ := r.Cookie("session_token")
+	sessionToken := c.Value
+	userSession, _ := sessions[sessionToken]
+	if userSession.IsExpired() {
+		delete(sessions, sessionToken)
+		return
+	}
+	isLog = true
+	fmt.Println("dislike", r.FormValue("post_id_dislike"), username)
 	postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
+	exe.GetLikes(postIdDislike)
 	exe.DislikePostDB(postIdDislike, username, isLog)
+	exe.GetDislikes(postIdDislike)
 	http.Redirect(w, r, "/home", http.StatusFound)
 }
 
