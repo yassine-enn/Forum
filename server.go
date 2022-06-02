@@ -26,8 +26,13 @@ type Page struct {
 var isLog bool
 var isCorrectPwd bool
 var wichPost int
+var username string
 
-var data Page
+// var hasLiked = false
+// var hasDisliked = false
+// var likeNum = 0
+// var dislikeNum = 0
+// var data Page
 
 func main() {
 	var sessionToken string
@@ -61,6 +66,7 @@ func main() {
 						})
 						fmt.Println("2", sessionToken)
 						fmt.Println("s", sessions)
+						username = r.FormValue("loginUsername")
 					}
 				}
 			} else if r.FormValue("signup_button") == "SIGN UP" {
@@ -69,20 +75,22 @@ func main() {
 			fmt.Println("wichPost", wichPost)
 		}
 
-		fmt.Println("like", r.FormValue("post_id_like"))
-		postIdLike, _ := strconv.Atoi(r.FormValue("post_id_like"))
-		if r.FormValue("post_id_like") != "" {
-			exe.LikePost(postIdLike)
-		}
-		fmt.Println("dislike", r.FormValue("post_id_dislike"))
-		postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
-		if r.FormValue("post_id_dislike") != "" {
-			exe.DislikePost(postIdDislike)
-		}
+		// fmt.Println("like", r.FormValue("post_id_like"))
+		// postIdLike, _ := strconv.Atoi(r.FormValue("post_id_like"))
+		// if r.FormValue("post_id_like") != "" {
+		// 	exe.LikePost(postIdLike)
+		// }
+		// fmt.Println("dislike", r.FormValue("post_id_dislike"))
+		// postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
+		// if r.FormValue("post_id_dislike") != "" {
+		// 	exe.DislikePost(postIdDislike)
+		// }
 		fmt.Println("islogF", isLog)
 		data := Page{isLog, exe.PostDataReader("PostID > 0")}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
+	http.HandleFunc("/like", likeHandler)
+	http.HandleFunc("/dislike", dislikeHandler)
 
 	http.HandleFunc("/postCreator", func(w http.ResponseWriter, r *http.Request) {
 		c, _ := r.Cookie("session_token")
@@ -118,6 +126,21 @@ func main() {
 	http.Handle("/template/", http.StripPrefix("/template/", fileServer))
 	fmt.Println("Listening on port 8080")
 	http.ListenAndServe("0.0.0.0:8080", nil)
+}
+
+func likeHandler(w http.ResponseWriter, r *http.Request) {
+
+	fmt.Println("like", r.FormValue("post_id_like"))
+	postIdLike, _ := strconv.Atoi(r.FormValue("post_id_like"))
+	exe.LikePostDb(postIdLike, username, isLog)
+	http.Redirect(w, r, "/home", http.StatusFound)
+}
+
+func dislikeHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("dislike", r.FormValue("post_id_dislike"))
+	postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
+	exe.DislikePostDB(postIdDislike, username, isLog)
+	http.Redirect(w, r, "/home", http.StatusFound)
 }
 
 func logoutHandler(w http.ResponseWriter, r *http.Request) {

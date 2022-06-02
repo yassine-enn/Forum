@@ -13,7 +13,7 @@ type User struct {
 }
 
 func Login(username string, password string, session Session) (bool, bool) {
-	db, err := sql.Open("sqlite3", "./forumdb")
+	db, err := sql.Open("sqlite3", "./databaseForum")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base")
 		return false, false

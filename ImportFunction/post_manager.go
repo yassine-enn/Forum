@@ -19,7 +19,7 @@ type Post struct {
 func PostDataReader(condition string) []Post {
 
 	var postTable []Post
-	db, err := sql.Open("sqlite3", "./forumdb")
+	db, err := sql.Open("sqlite3", "./databaseForum")
 	if err != nil {
 		fmt.Println("Echec de l'ouverture de la base")
 		return nil
