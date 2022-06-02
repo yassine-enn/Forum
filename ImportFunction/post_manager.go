@@ -16,7 +16,7 @@ type Post struct {
 	PostAuthor   string
 }
 
-func PostDataReader(condition string) []Post {
+func PostDataReader(condition string, source string) []Post {
 
 	var postTable []Post
 	db, err := sql.Open("sqlite3", "./forumdb")
@@ -25,7 +25,7 @@ func PostDataReader(condition string) []Post {
 		return nil
 	}
 	defer db.Close()
-	result, err1 := db.Query(`SELECT PostID, date(Date), PostCategory, PostText, PostTitle, likeCounter, PostAuthor FROM Post WHERE ` + condition)
+	result, err1 := db.Query(`SELECT PostID, date(Date), PostCategory, PostText, PostTitle, likeCounter, PostAuthor FROM ` + source + ` WHERE ` + condition)
 	if err1 != nil {
 		fmt.Println("ratio, ", err1)
 		return nil
@@ -42,16 +42,15 @@ func PostDataReader(condition string) []Post {
 		result.Scan(&PostID, &PostDate, &PostCategory, &PostText, &PostTitle, &PostLike, &PostAuthor)
 		var post = Post{PostID, PostDate, PostCategory, PostText, PostTitle, PostLike, PostAuthor}
 		postTable = append(postTable, post)
-		fmt.Println(postTable)
 	}
 	result.Close()
 	db.Close()
 	return postTable
 }
 
-func PostTopic(postText string, postTitle string, postCategory string, author string) {
+func PostTopic(postText string, postTitle string, postCategory string, author string, source string) {
 	db := BddOpener()
-	statement, prepareErr := db.Prepare("INSERT INTO Post (Date, PostCategory, PostText, PostTitle, likeCounter, PostAuthor) VALUES (?,?,?,?,?,?)")
+	statement, prepareErr := db.Prepare("INSERT INTO " + source + " (Date, PostCategory, PostText, PostTitle, likeCounter, PostAuthor) VALUES (?,?,?,?,?,?)")
 	if prepareErr != nil {
 		fmt.Println("La préparation de la requête a échoué", prepareErr)
 		return

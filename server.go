@@ -27,8 +27,6 @@ var isLog bool
 var isCorrectPwd bool
 var wichPost int
 
-var data Page
-
 func main() {
 	var sessionToken string
 	tmpl, err := template.ParseGlob("./template/vues/*.html")
@@ -70,37 +68,57 @@ func main() {
 			fmt.Println("wichPost", wichPost)
 		}
 		fmt.Println("islogF", isLog)
-		data := Page{isLog, exe.PostDataReader("PostID > 0")}
+		data := Page{isLog, exe.PostDataReader("PostID > 0", "Post")}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
 
 	http.HandleFunc("/postCreator", func(w http.ResponseWriter, r *http.Request) {
 		c, _ := r.Cookie("session_token")
-		sessionToken := c.Value
-		userSession, _ := sessions[sessionToken]
-		if userSession.IsExpired() {
-			delete(sessions, sessionToken)
+		if c == nil {
+			redirect := "/home"
+			http.Redirect(w, r, redirect, http.StatusFound)
 			return
 		}
-		fmt.Println(userSession.Username)
-		if r.Method == "POST" {
-			exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"), userSession.Username)
+		sessionToken := c.Value
+		if sessionToken == "" {
+			redirect := "/home"
+			http.Redirect(w, r, redirect, http.StatusFound)
+			return
 		}
-		data := Page{isLog, exe.PostDataReader("PostID > 0")}
+		userSession, _ := sessions[sessionToken]
+		if userSession.IsExpired() {
+			redirect := "/home"
+			http.Redirect(w, r, redirect, http.StatusFound)
+			return
+		}
+		if r.Method == "POST" {
+			exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"), userSession.Username, "Post")
+		}
+		data := Page{isLog, exe.PostDataReader("PostID > 0", "Post")}
 		tmpl.ExecuteTemplate(w, "postcreator", data)
 	})
 
 	http.HandleFunc("/post", func(w http.ResponseWriter, r *http.Request) {
 		c, _ := r.Cookie("session_token")
-		sessionToken := c.Value
-		userSession, _ := sessions[sessionToken]
-		if userSession.IsExpired() {
-			delete(sessions, sessionToken)
+		if c == nil {
+			redirect := "/home"
+			http.Redirect(w, r, redirect, http.StatusFound)
 			return
 		}
-		isLog = true
+		sessionToken := c.Value
+		if sessionToken == "" {
+			redirect := "/home"
+			http.Redirect(w, r, redirect, http.StatusFound)
+			return
+		}
+		userSession, _ := sessions[sessionToken]
+		if userSession.IsExpired() {
+			redirect := "/home"
+			http.Redirect(w, r, redirect, http.StatusFound)
+			return
+		}
 		wichPost, _ = strconv.Atoi(r.FormValue("post_id"))
-		data := Page{isLog, exe.PostDataReader("PostID = " + strconv.Itoa(wichPost))}
+		data := Page{isLog, exe.PostDataReader("PostID = "+strconv.Itoa(wichPost), "Post")}
 		tmpl.ExecuteTemplate(w, "post_page", data)
 	})
 
