@@ -29,16 +29,12 @@
                   <div class="categories_selector">
                   <p class="category_text">Category :</p>
                   <select class="post_category_selector" id="post_input_category" name="post_input_category">
-                    <option>Fun</option>
-                    <option>News</option>
-                    <option>Tutorial</option>
-                    <option>Sport</option>
-                    <option>Gaming</option>
-                    <option>Musique</option>
-                    <option>Voiture</option>
+                    {{ range .Categories }}
+                    <option>{{ .CategoryName }}</option>
+                    {{ end }}
                   </select>
                 </div>
-                <input type="file" id="post_input_file" name="post_input_file" accept=".png, .jpg">
+                <input type="text" id="post_input_new_category" name="post_input_new_category">
                 <input type="submit" id="post_input_submit" value="Create Post" />
               </div>
             </form>

@@ -373,8 +373,6 @@ article[id="post"] {
 }
 
 .addon_container {
-  border: solid;
-  border-color: #498ae4;
   margin-left: 5%;
   height: fit-content;
   border-radius: 2%;
@@ -585,4 +583,16 @@ form[id="post_footer_form"] {
   justify-content: space-between;
   height: auto;
   margin-top: 5%;
+}
+
+ul {
+  list-style: none;
+}
+
+input[name="category_filter"] {
+  background: none;
+  border: none;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 2%;
 }

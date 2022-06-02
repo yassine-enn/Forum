@@ -24,6 +24,11 @@ type Comment struct {
 	CommentSource int
 }
 
+type Category struct {
+	CategoryID   int
+	CategoryName string
+}
+
 func PostDataReader(condition string) []Post {
 	var postTable []Post
 	db := BddOpener()
@@ -123,4 +128,41 @@ func DeleteTopic(ID int) {
 	}
 	statement.Close()
 	db.Close()
+}
+
+func AddCategory(categoryName string) {
+	db := BddOpener()
+	statement, prepareErr := db.Prepare("INSERT INTO Category (CategoryName) VALUES (?)")
+	if prepareErr != nil {
+		fmt.Println("La préparation de la requête a échoué", prepareErr)
+		return
+	}
+	_, queryErr := statement.Exec(categoryName)
+	if queryErr != nil {
+		fmt.Println("Une erreur est survenue durant la requête", queryErr)
+		return
+	}
+	statement.Close()
+	db.Close()
+}
+
+func CategoryReader() []Category {
+	db := BddOpener()
+	result, err1 := db.Query("SELECT CategoryID, CategoryName FROM Category")
+	if err1 != nil {
+		fmt.Println("ratio, ", err1)
+		return nil
+	}
+	defer result.Close()
+	var Categories []Category
+	for result.Next() {
+		var categoryName string
+		var categoryID int
+		result.Scan(&categoryID, &categoryName)
+		var category = Category{categoryID, categoryName}
+		Categories = append(Categories, category)
+	}
+	result.Close()
+	db.Close()
+	return Categories
 }

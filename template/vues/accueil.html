@@ -78,25 +78,35 @@
               </div>
               <div class="like_frame">
                 <div class="like_button">
-                  <form action="/home" id="post_footer_form" method="POST">
-                  <button class="icon_post">
-                    <img
-                      src="/template//sources/up-arrow.png"
-                      class="icon_post"
+                  <form action="/like" id="post_footer_form" method="POST">
+                    <button class="icon_post">
+                      <img
+                        src="/template//sources/up-arrow.png"
+                        class="icon_post"
+                      />
+                    </button>
+                    <input
+                      type="hidden"
+                      value="{{ .PostID }}"
+                      name="post_id_like"
                     />
-                  </button>
-                  <input type="hidden" value="{{ .PostID }}" name="post_id_like" />
+                  </form>
                 </div>
                 <p>{{ .PostLike }}</p>
                 <div class="dislike_button">
-                  <button class="icon_post" >
-                    <img
-                      src="/template//sources/down-arrow.png"
-                      class="icon_post"
+                  <form action="/dislike" id="post_footer_form" method="POST">
+                    <button class="icon_post">
+                      <img
+                        src="/template//sources/down-arrow.png"
+                        class="icon_post"
+                      />
+                    </button>
+                    <input
+                      type="hidden"
+                      value="{{ .PostID }}"
+                      name="post_id_dislike"
                     />
-                  </button>
-                  <input type="hidden" value="{{ .PostID }}" name="post_id_dislike" />
-                </form>
+                  </form>
                 </div>
               </div>
             </div>
@@ -107,9 +117,15 @@
       <div class="addon_container">
         <div class="category_container">
           <h1>Categories</h1>
-        </div>
-        <div class="filter_container">
-          <h1>Filters</h1>
+          <div class="category_list">
+            <form method="POST" action="/home" id="category_form"></form>
+            <ul>
+              {{ range .Categories }}
+              <li>
+                 <input type="submit" name="category_filter" value="{{ .CategoryName }}" />
+              </li>
+              {{ end }}
+            </ul>
         </div>
       </div>
     </div>
