@@ -30,7 +30,7 @@ var isCorrectPwd bool
 var wichPost int
 var username string
 var postToShow []exe.Post
-var paginValue = 1
+var paginValue = 0
 var whatPage = 1
 
 func main() {

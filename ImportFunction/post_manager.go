@@ -29,6 +29,7 @@ type Category struct {
 	CategoryName string
 }
 
+// It returns a slice of Post structs, which are the posts that match the condition and the pagination
 func PostDataReader(condition string, pagin string) []Post {
 	var postTable []Post
 	db := BddOpener()
@@ -53,9 +54,11 @@ func PostDataReader(condition string, pagin string) []Post {
 	}
 	result.Close()
 	db.Close()
+	fmt.Println(postTable)
 	return postTable
 }
 
+// It returns a slice of Comment structs, which are the comments that match the condition
 func CommentDataReader(condition string) []Comment {
 	var commentTable []Comment
 	db := BddOpener()
@@ -82,6 +85,8 @@ func CommentDataReader(condition string) []Comment {
 	return commentTable
 }
 
+// It takes a post text, a post title, a post category and an author as parameters, and inserts them
+// into the database
 func PostTopic(postText string, postTitle string, postCategory string, author string) {
 	db := BddOpener()
 	statement, prepareErr := db.Prepare("INSERT INTO Post (Date, PostCategory, PostText, PostTitle, likeCounter, PostAuthor) VALUES (?,?,?,?,?,?)")
@@ -98,6 +103,7 @@ func PostTopic(postText string, postTitle string, postCategory string, author st
 	db.Close()
 }
 
+// It takes a comment text, a post ID, and an author, and inserts a new comment into the database
 func CommentTopic(commentText string, postID int, author string) {
 	db := BddOpener()
 	statement, prepareErr := db.Prepare("INSERT INTO Comment (CommentAuthor, CommentLike, CommentDate, CommentText, CommentSource) VALUES (?,?,?,?,?)")
@@ -114,6 +120,7 @@ func CommentTopic(commentText string, postID int, author string) {
 	db.Close()
 }
 
+// It deletes a topic from the database
 func DeleteTopic(ID int) {
 	db := BddOpener()
 	statement, prepareErr := db.Prepare("DELETE FROM Post WHERE PostID = ?")
@@ -130,6 +137,8 @@ func DeleteTopic(ID int) {
 	db.Close()
 }
 
+// It opens a connection to the database, prepares a query, executes the query and closes the
+// connection
 func AddCategory(categoryName string) {
 	db := BddOpener()
 	statement, prepareErr := db.Prepare("INSERT INTO Category (CategoryName) VALUES (?)")
@@ -146,6 +155,7 @@ func AddCategory(categoryName string) {
 	db.Close()
 }
 
+// It returns a slice of Category structs, which are read from the database
 func CategoryReader() []Category {
 	db := BddOpener()
 	result, err1 := db.Query("SELECT CategoryID, CategoryName FROM Category")
@@ -167,6 +177,7 @@ func CategoryReader() []Category {
 	return Categories
 }
 
+// It returns the number of rows in the Post table
 func HowManyRow() int {
 	db := BddOpener()
 	result, err1 := db.Query("SELECT COUNT(*) FROM Post")
