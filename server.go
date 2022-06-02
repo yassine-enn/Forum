@@ -22,6 +22,7 @@ type Page struct {
 	Categories  []exe.Category
 	HowManyPage int
 	WhichPage   int
+	Username    string
 }
 
 var isLog bool
@@ -39,9 +40,11 @@ func main() {
 		fmt.Println("Template loading Error:", err)
 		return
 	}
-
+	// It's a function that redirects to the er404.html page if the user enters a wrong url.
+	http.HandleFunc("/", Er404)
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
+			// This is the code that allows the user to log in.
 			if r.FormValue("signup_button") == "LOG IN" {
 				isLog, isCorrectPwd = exe.Login(r.FormValue("loginUsername"), r.FormValue("loginPassword"), sessions[sessionToken])
 				fmt.Println("isLog", isLog, "isCorrectPwd", isCorrectPwd)
@@ -70,8 +73,9 @@ func main() {
 				}
 			} else if r.FormValue("signup_button") == "SIGN UP" {
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
-			}
+			} // This is the code that allows the user to sign up.
 		}
+		// It's the code that allows the user to go to the next page or the previous page.
 		if r.FormValue("next_page") == "next" {
 			paginValue += 10
 			whatPage += 1
@@ -81,19 +85,22 @@ func main() {
 		}
 		whichPage := strconv.Itoa(paginValue)
 		maxPage := math.Ceil(float64(exe.HowManyRow()) / 10)
-		postToShow = exe.PostDataReader("PostID > 0", whichPage)
+		postToShow = exe.PostDataReader("PostID > 0", `LIMIT '10' OFFSET `+whichPage)
+		// It's the code that allows the user to search for a post.
 		if r.FormValue("search") != "" {
-			postToShow = exe.PostDataReader("PostText LIKE '%"+r.FormValue("search")+"%' OR PostTitle LIKE '%"+r.FormValue("search")+"%' OR PostCategory LIKE '%"+r.FormValue("search")+"%' OR PostAuthor LIKE '%"+r.FormValue("search")+"%'", whichPage)
+			postToShow = exe.PostDataReader("PostText LIKE '%"+r.FormValue("search")+"%' OR PostTitle LIKE '%"+r.FormValue("search")+"%' OR PostCategory LIKE '%"+r.FormValue("search")+"%' OR PostAuthor LIKE '%"+r.FormValue("search")+"%'", "")
+
 		} else if r.FormValue("category_filter") != "" {
-			postToShow = exe.PostDataReader("PostCategory = '"+r.FormValue("category_filter")+"'", whichPage)
-		}
-		data := Page{isLog, postToShow, nil, exe.CategoryReader(), int(maxPage), whatPage}
+			postToShow = exe.PostDataReader("PostCategory = '"+r.FormValue("category_filter")+"'", "")
+		} // It's the code that allows the user to filter the posts by category.
+		data := Page{isLog, postToShow, nil, exe.CategoryReader(), int(maxPage), whatPage, ""}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
 	http.HandleFunc("/like", likeHandler)
 	http.HandleFunc("/dislike", dislikeHandler)
 
 	http.HandleFunc("/postCreator", func(w http.ResponseWriter, r *http.Request) {
+		// It's a code that allows the user to stay logged in, by checking if a session is opened.
 		c, _ := r.Cookie("session_token")
 		if c == nil {
 			redirect := "/home"
@@ -113,6 +120,7 @@ func main() {
 			http.Redirect(w, r, redirect, http.StatusFound)
 			return
 		}
+		// It's the code that allows the user to create a post.
 		if r.Method == "POST" {
 			if r.FormValue("post_input_new_category") != "" {
 				exe.AddCategory(r.FormValue("post_input_new_category"))
@@ -121,7 +129,7 @@ func main() {
 				exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"), userSession.Username)
 			}
 		}
-		data := Page{isLog, nil, nil, nil, 0, 0}
+		data := Page{isLog, nil, nil, exe.CategoryReader(), 0, 0, ""}
 		tmpl.ExecuteTemplate(w, "postcreator", data)
 	})
 
@@ -146,14 +154,41 @@ func main() {
 			http.Redirect(w, r, redirect, http.StatusFound)
 			return
 		}
+		// It's the code that allows the user to create a comment.
 		if r.Method == "POST" {
 			wichPost, _ = strconv.Atoi(r.FormValue("post_id"))
 			if r.FormValue("comment_content") != "" {
 				exe.CommentTopic(r.FormValue("comment_content"), wichPost, userSession.Username)
 			}
 		}
-		data := Page{isLog, exe.PostDataReader("PostID = "+strconv.Itoa(wichPost), "10"), exe.CommentDataReader("CommentSource = " + strconv.Itoa(wichPost)), exe.CategoryReader(), 0, 0}
+		data := Page{isLog, exe.PostDataReader("PostID = "+strconv.Itoa(wichPost), ""), exe.CommentDataReader("CommentSource = " + strconv.Itoa(wichPost)), exe.CategoryReader(), 0, 0, ""}
 		tmpl.ExecuteTemplate(w, "post_page", data)
+	})
+
+	http.HandleFunc("/profil", func(w http.ResponseWriter, r *http.Request) {
+		wichPost, _ = strconv.Atoi(r.FormValue("post_id"))
+		c, _ := r.Cookie("session_token")
+		if c == nil {
+			redirect := "/home"
+			http.Redirect(w, r, redirect, http.StatusFound)
+			return
+		}
+		sessionToken := c.Value
+		if sessionToken == "" {
+			redirect := "/home"
+			http.Redirect(w, r, redirect, http.StatusFound)
+			return
+		}
+		userSession := sessions[sessionToken]
+		if userSession.IsExpired() {
+			isLog = false
+			redirect := "/home"
+			http.Redirect(w, r, redirect, http.StatusFound)
+			return
+		}
+		data := Page{isLog, exe.PostDataReader("PostAuthor = '"+userSession.Username+"'", ""), nil, exe.CategoryReader(), 0, 0, userSession.Username}
+		tmpl.ExecuteTemplate(w, "profil", data)
+
 	})
 
 	fileServer := http.FileServer(http.Dir("./template/"))
@@ -183,6 +218,7 @@ func likeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	isLog = true
 	fmt.Println("like", r.FormValue("post_id_like"))
+	// It's the code that allows the user to like a post.
 	postIdLike, _ := strconv.Atoi(r.FormValue("post_id_like"))
 	exe.GetLikes(postIdLike)
 	exe.LikePostDb(postIdLike, username, isLog)
@@ -204,6 +240,7 @@ func dislikeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	isLog = true
+	// It's the code that allows the user to dislike a post.
 	fmt.Println("dislike", r.FormValue("post_id_dislike"), username)
 	postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
 	exe.DislikePostDB(postIdDislike, username, isLog)
@@ -213,6 +250,7 @@ func dislikeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func logoutHandler(w http.ResponseWriter, r *http.Request) {
+	// It's the code that allows the user to log out.
 	c, _ := r.Cookie("session_token")
 	sessionToken := c.Value
 	delete(sessions, sessionToken)
@@ -225,4 +263,8 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 	isLog = false
 	redirect := "/home"
 	http.Redirect(w, r, redirect, http.StatusFound)
+}
+
+func Er404(w http.ResponseWriter, r *http.Request) {
+	template.Must(template.ParseFiles("template/vues/err404.html")).ExecuteTemplate(w, "err404.html", nil) //opening of the er404.html page
 }

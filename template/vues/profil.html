@@ -1,0 +1,97 @@
+{{ define "profil" }}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/template/style-forum.css" />
+  </head>
+  <body>
+    
+    {{ template "header" .}}
+    <article id="post">
+        <h1>Welcome {{ .Username }}, here is a list of your posts</h1>
+     <div class="post_container">
+          {{ range .Post }}
+          <div class="post_frame">
+            <div class="post_margin">
+              <div class="post_content">
+                <div class="post_header">
+                  <div class="post_header_left">
+                    <p>{{ .PostCategory }}</p>
+                  </div>
+                  <div class="post_header_right">
+                    <p>{{ .PostTitle }}</p>
+                  </div>
+                </div>
+                <div class="post_content_text">
+                    <p>{{ .PostContent }}</p>
+                </div>
+                <div class="post_footer">
+                  <div class="post_footer_left">
+                    <p>{{ .PostAuthor }}</p>
+                    <p>{{ .PostDate }}</p>
+                  </div>
+                  <div class="post_footer_right">
+                    <form action="/post" id="post_footer_form" method="POST">
+                      <button class="icon_post">
+                        <img
+                          src="/template/sources/save-instagram.png"
+                          class="icon_post"
+                          name="add_favorite"
+                        />
+                      </button>
+                    </form>
+                    <button
+                      class="icon_post"
+                      onclick="//faire une fonction js de copie de lien"
+                      name="save_link"
+                    >
+                      <img
+                        src="/template/sources/share.png"
+                        class="icon_post"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="like_frame">
+                 <form action="/like" id="post_footer_form" method="POST">
+                    <button class="icon_post">
+                      <img
+                        src="/template//sources/up-arrow.png"
+                        class="icon_post"
+                      />
+                    </button>
+                    <input
+                      type="hidden"
+                      value="{{ .PostID }}"
+                      name="post_id_like"
+                    />
+                  </form>
+                <p>{{ .PostLike }}</p>
+                <div class="dislike_button">
+                  <form action="/dislike" id="post_footer_form" method="POST">
+                    <button class="icon_post">
+                      <img
+                        src="/template//sources/down-arrow.png"
+                        class="icon_post"
+                      />
+                    </button>
+                    <input
+                      type="hidden"
+                      value="{{ .PostID }}"
+                      name="post_id_dislike"
+                    />
+                  </form>
+                </div>
+            </div>
+          </div>
+          </div>
+          {{ end }}
+        </article>
+        </div>
+      </div>
+  </body>
+</html>
+{{ end }}
