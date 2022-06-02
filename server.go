@@ -63,22 +63,23 @@ func main() {
 						fmt.Println("s", sessions)
 					}
 				}
-			} else {
+			} else if r.FormValue("signup_button") == "SIGN UP" {
 				fmt.Println("pessi fraude finito")
 				exe.Signup(r.FormValue("signupUsername"), r.FormValue("signupEmail"), r.FormValue("signupPassword"))
 			}
 			fmt.Println("wichPost", wichPost)
 		}
+		fmt.Println("like", r.FormValue("post_id_like"))
+		postIdLike, _ := strconv.Atoi(r.FormValue("post_id_like"))
+		exe.LikePost(postIdLike)
+		fmt.Println("dislike", r.FormValue("post_id_dislike"))
+		postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
+		exe.DislikePost(postIdDislike)
 		fmt.Println("islogF", isLog)
 		data := Page{isLog, exe.PostDataReader("PostID > 0")}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
 
-	http.HandleFunc("/index", func(w http.ResponseWriter, r *http.Request) {
-		data := Page{isLog, exe.PostDataReader("PostID > 0")}
-		fmt.Println("bb", data.IsLoged)
-		tmpl.ExecuteTemplate(w, "index", data)
-	})
 	http.HandleFunc("/postCreator", func(w http.ResponseWriter, r *http.Request) {
 		c, _ := r.Cookie("session_token")
 		sessionToken := c.Value
@@ -87,9 +88,9 @@ func main() {
 			delete(sessions, sessionToken)
 			return
 		}
-		isLog = true
+		fmt.Println(userSession.Username)
 		if r.Method == "POST" {
-			exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"))
+			exe.PostTopic(r.FormValue("post_input_text"), r.FormValue("post_input_title"), r.FormValue("post_input_category"), userSession.Username)
 		}
 		data := Page{isLog, exe.PostDataReader("PostID > 0")}
 		tmpl.ExecuteTemplate(w, "postcreator", data)
@@ -106,14 +107,13 @@ func main() {
 		isLog = true
 		wichPost, _ = strconv.Atoi(r.FormValue("post_id"))
 		data := Page{isLog, exe.PostDataReader("PostID = " + strconv.Itoa(wichPost))}
-		fmt.Println(r.FormValue("post_id_like"))
 		tmpl.ExecuteTemplate(w, "post_page", data)
 	})
 	fileServer := http.FileServer(http.Dir("./template/"))
 	http.HandleFunc("/logout", logoutHandler)
 	http.Handle("/template/", http.StripPrefix("/template/", fileServer))
 	fmt.Println("Listening on port 8080")
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe("0.0.0.0:8080", nil)
 }
 
 func logoutHandler(w http.ResponseWriter, r *http.Request) {

@@ -421,6 +421,7 @@ article[id="post"] {
   display: flex;
   flex-direction: row;
   width: 100%;
+  justify-content: space-between;
 }
 
 .post_margin {
