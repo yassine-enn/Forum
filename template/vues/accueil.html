@@ -118,7 +118,7 @@
         <div class="category_container">
           <h1>Categories</h1>
           <div class="category_list">
-            <form method="POST" action="/home" id="category_form"></form>
+            <form method="POST" action="/home" id="category_form">
             <ul>
               {{ range .Categories }}
               <li>
@@ -126,6 +126,7 @@
               </li>
               {{ end }}
             </ul>
+          </form>
         </div>
       </div>
     </div>

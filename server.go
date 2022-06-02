@@ -51,7 +51,7 @@ func main() {
 				fmt.Println("isLog", isLog, "isCorrectPwd", isCorrectPwd)
 				if isCorrectPwd {
 					sessionToken = uuid.NewString()
-					expiresAt := time.Now().Add(120 * time.Second)
+					expiresAt := time.Now().Add(3600 * time.Second)
 					// Set the token in the session map, along with the session information
 					sessions[sessionToken] = exe.Session{
 						Username: r.FormValue("loginUsername"),
@@ -91,13 +91,15 @@ func main() {
 		postToShow = exe.PostDataReader("PostID > 0")
 		if r.FormValue("search") != "" {
 			postToShow = exe.PostDataReader("PostText LIKE '%" + r.FormValue("search") + "%' OR PostTitle LIKE '%" + r.FormValue("search") + "%'")
+		} else if r.FormValue("category_filter") != "" {
+			postToShow = exe.PostDataReader("PostCategory = '" + r.FormValue("category_filter") + "'")
 		}
 		fmt.Println("islogF", isLog)
 		data := Page{isLog, postToShow, nil, exe.CategoryReader()}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
 	})
 	http.HandleFunc("/like", likeHandler)
-	// http.HandleFunc("/dislike", dislikeHandler)
+	http.HandleFunc("/dislike", dislikeHandler)
 
 	http.HandleFunc("/postCreator", func(w http.ResponseWriter, r *http.Request) {
 		c, _ := r.Cookie("session_token")
@@ -170,19 +172,53 @@ func main() {
 }
 
 func likeHandler(w http.ResponseWriter, r *http.Request) {
-
+	c, _ := r.Cookie("session_token")
+	if c == nil {
+		redirect := "/home"
+		http.Redirect(w, r, redirect, http.StatusFound)
+		return
+	}
+	sessionToken := c.Value
+	if sessionToken == "" {
+		redirect := "/home"
+		http.Redirect(w, r, redirect, http.StatusFound)
+		return
+	}
+	userSession, _ := sessions[sessionToken]
+	if userSession.IsExpired() {
+		delete(sessions, sessionToken)
+		return
+	}
+	isLog = true
 	fmt.Println("like", r.FormValue("post_id_like"))
 	postIdLike, _ := strconv.Atoi(r.FormValue("post_id_like"))
+	exe.GetLikes(postIdLike)
 	exe.LikePostDb(postIdLike, username, isLog)
+	exe.GetLikes(postIdLike)
 	http.Redirect(w, r, "/home", http.StatusFound)
 }
 
-// func dislikeHandler(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Println("dislike", r.FormValue("post_id_dislike"))
-// 	postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
-// 	exe.DislikePostDB(postIdDislike, username, isLog)
-// 	http.Redirect(w, r, "/home", http.StatusFound)
-// }
+func dislikeHandler(w http.ResponseWriter, r *http.Request) {
+	c, _ := r.Cookie("session_token")
+	if c == nil {
+		redirect := "/home"
+		http.Redirect(w, r, redirect, http.StatusFound)
+		return
+	}
+	sessionToken := c.Value
+	if sessionToken == "" {
+		redirect := "/home"
+		http.Redirect(w, r, redirect, http.StatusFound)
+		return
+	}
+	isLog = true
+	fmt.Println("dislike", r.FormValue("post_id_dislike"), username)
+	postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
+	exe.GetLikes(postIdDislike)
+	exe.DislikePostDB(postIdDislike, username, isLog)
+	exe.GetDislikes(postIdDislike)
+	http.Redirect(w, r, "/home", http.StatusFound)
+}
 
 func logoutHandler(w http.ResponseWriter, r *http.Request) {
 	c, _ := r.Cookie("session_token")

@@ -494,6 +494,7 @@ input[id="post_input_title"] {
   border: none;
   border-bottom: solid;
   border-color: white;
+  color: white;
   border-width: 2px;
   margin: 1%;
   width: 98%;
@@ -503,6 +504,7 @@ textarea[id="post_input_text"] {
   display: flex;
   background: none;
   border-color: white;
+  color: white;
   border-width: 2px;
   margin: 1%;
   min-width: 98%;
@@ -538,12 +540,6 @@ textarea[id="post_input_text"] {
 .categories_selector {
   display: flex;
   flex-direction: row;
-}
-
-input[id="post_input_file"] {
-  background: none;
-  cursor: pointer;
-  color: white;
 }
 
 input[id="post_input_submit"] {
@@ -595,4 +591,20 @@ input[name="category_filter"] {
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   margin: 2%;
+}
+
+input[id="post_input_new_category"] {
+  background: none;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  border-color: white;
+  border-style: solid;
+  border-bottom: none;
+  border-top: none;
+}
+
+.new_category_container {
+  display: flex;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
 }
