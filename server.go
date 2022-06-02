@@ -67,6 +67,17 @@ func main() {
 			}
 			fmt.Println("wichPost", wichPost)
 		}
+
+		fmt.Println("like", r.FormValue("post_id_like"))
+		postIdLike, _ := strconv.Atoi(r.FormValue("post_id_like"))
+		if r.FormValue("post_id_like") != "" {
+			exe.LikePost(postIdLike)
+		}
+		fmt.Println("dislike", r.FormValue("post_id_dislike"))
+		postIdDislike, _ := strconv.Atoi(r.FormValue("post_id_dislike"))
+		if r.FormValue("post_id_dislike") != "" {
+			exe.DislikePost(postIdDislike)
+		}
 		fmt.Println("islogF", isLog)
 		data := Page{isLog, exe.PostDataReader("PostID > 0", "Post")}
 		tmpl.ExecuteTemplate(w, "acceuil", data)
@@ -121,7 +132,6 @@ func main() {
 		data := Page{isLog, exe.PostDataReader("PostID = "+strconv.Itoa(wichPost), "Post")}
 		tmpl.ExecuteTemplate(w, "post_page", data)
 	})
-
 	fileServer := http.FileServer(http.Dir("./template/"))
 	http.HandleFunc("/logout", logoutHandler)
 	http.Handle("/template/", http.StripPrefix("/template/", fileServer))

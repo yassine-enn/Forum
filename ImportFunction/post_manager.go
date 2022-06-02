@@ -1,7 +1,6 @@
 package ImportFunction
 
 import (
-	"database/sql"
 	"fmt"
 	"time"
 )
@@ -19,11 +18,7 @@ type Post struct {
 func PostDataReader(condition string, source string) []Post {
 
 	var postTable []Post
-	db, err := sql.Open("sqlite3", "./forumdb")
-	if err != nil {
-		fmt.Println("Echec de l'ouverture de la base")
-		return nil
-	}
+	db := BddOpener()
 	defer db.Close()
 	result, err1 := db.Query(`SELECT PostID, date(Date), PostCategory, PostText, PostTitle, likeCounter, PostAuthor FROM ` + source + ` WHERE ` + condition)
 	if err1 != nil {
@@ -48,14 +43,30 @@ func PostDataReader(condition string, source string) []Post {
 	return postTable
 }
 
-func PostTopic(postText string, postTitle string, postCategory string, author string, source string) {
+func PostTopic(postText string, postTitle string, postCategory string, author string) {
 	db := BddOpener()
-	statement, prepareErr := db.Prepare("INSERT INTO " + source + " (Date, PostCategory, PostText, PostTitle, likeCounter, PostAuthor) VALUES (?,?,?,?,?,?)")
+	statement, prepareErr := db.Prepare("INSERT INTO Post (Date, PostCategory, PostText, PostTitle, likeCounter, PostAuthor) VALUES (?,?,?,?,?,?)")
 	if prepareErr != nil {
 		fmt.Println("La préparation de la requête a échoué", prepareErr)
 		return
 	}
 	_, queryErr := statement.Exec(time.Now(), postCategory, postText, postTitle, 0, author)
+	if queryErr != nil {
+		fmt.Println("Une erreur est survenue durant la requête", queryErr)
+		return
+	}
+	statement.Close()
+	db.Close()
+}
+
+func CommentTopic(commentText string, postID int, author string) {
+	db := BddOpener()
+	statement, prepareErr := db.Prepare("INSERT INTO Comment (CommentAuthor, CommentLike, CommentAuthor) VALUES (?,?,?,?)")
+	if prepareErr != nil {
+		fmt.Println("La préparation de la requête a échoué", prepareErr)
+		return
+	}
+	_, queryErr := statement.Exec(commentText, time.Now(), postID, author)
 	if queryErr != nil {
 		fmt.Println("Une erreur est survenue durant la requête", queryErr)
 		return

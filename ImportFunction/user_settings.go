@@ -1,7 +1,6 @@
 package ImportFunction
 
 import (
-	"database/sql"
 	"fmt"
 
 	"golang.org/x/crypto/bcrypt"
@@ -13,11 +12,7 @@ type User struct {
 }
 
 func Login(username string, password string, session Session) (bool, bool) {
-	db, err := sql.Open("sqlite3", "./forumdb")
-	if err != nil {
-		fmt.Println("Echec de l'ouverture de la base")
-		return false, false
-	}
+	db := BddOpener()
 	result, err1 := db.Prepare("SELECT Username, PasswordHash FROM User WHERE Username = ?")
 	if err1 != nil {
 		fmt.Println("erreur lors de la recherche dans la base de donnée", err1)
