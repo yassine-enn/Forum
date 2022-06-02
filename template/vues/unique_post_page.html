@@ -1,4 +1,4 @@
-{{ define "acceuil" }}
+{{ define "post_page" }}
 <!DOCTYPE html>
 <html>
   <head>
@@ -6,23 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/template/style-forum.css" />
   </head>
-  {{ template "header" .}}
-  <article id="post">
-    <div class="home_layout">
-      <div class="post_manager">
-        {{ if (eq .IsLoged true )}}
-        <div class="post_creater">
-          <form action="/home" id="post_form" method="POST" onclick="">
-            <input
-              type="text"
-              id="post_input"
-              placeholder="Create a new post"
-              onclick="redirectInput()"
-            />
-          </form>
-        </div>
-        {{ end }}
-        <div class="post_container">
+  <body>
+    {{ template "header" .}}
+    <article id="post">
+     <div class="post_container">
           {{ range .Post }}
           <div class="post_frame">
             <div class="post_margin">
@@ -43,18 +30,6 @@
                   </div>
                   <div class="post_footer_right">
                     <form action="/post" id="post_footer_form" method="POST">
-                      <button type="submit" name="comment" class="icon_post">
-                        <img
-                          src="/template/sources/comment.png"
-                          class="icon_post"
-                          name="comment"
-                        />
-                      </button>
-                      <input
-                        type="hidden"
-                        value="{{ .PostID }}"
-                        name="post_id"
-                      />
                       <button class="icon_post">
                         <img
                           src="/template/sources/save-instagram.png"
@@ -77,8 +52,7 @@
                 </div>
               </div>
               <div class="like_frame">
-                <div class="like_button">
-                  <form action="/like" id="post_footer_form" method="POST">
+                 <form action="/like" id="post_footer_form" method="POST">
                     <button class="icon_post">
                       <img
                         src="/template//sources/up-arrow.png"
@@ -91,13 +65,12 @@
                       name="post_id_like"
                     />
                   </form>
-                </div>
                 <p>{{ .PostLike }}</p>
                 <div class="dislike_button">
                   <form action="/dislike" id="post_footer_form" method="POST">
                     <button class="icon_post">
                       <img
-                        src="/template/sources/down-arrow.png"
+                        src="/template//sources/down-arrow.png"
                         class="icon_post"
                       />
                     </button>
@@ -108,47 +81,33 @@
                     />
                   </form>
                 </div>
-              </div>
             </div>
           </div>
-          {{ end }}
-           <form method="POST" id="pagin_button">
-             {{ if (ne .WhichPage 1) }}
-            <button class="pagin_button" name="previous_page" value="previous" >
-                <img src="/template/sources/arrow.png" class="icon_post"/>
-            </button>
-            {{ end }}
-            {{ if (ne .HowManyPage .WhichPage )}}
-            <button class="pagin_button" name="next_page" value="next" >
-                <img src="/template/sources/right-arrow.png" class="icon_post"/>
-            </button>
-            {{ end }}
-        </form>
+        </article>
         </div>
-      </div>
-      <div class="addon_container">
-        <div class="category_container">
-          <h1>Categories</h1>
-          <div class="category_list">
-            <form method="POST" action="/home" id="category_form">
-            <ul>
-              {{ range .Categories }}
-              <li>
-                 <input type="submit" name="category_filter" value="{{ .CategoryName }}" />
-              </li>
-              {{ end }}
-            </ul>
-          </form>
+        <div class="com_creator">
+            <form method="POST" action="/post">
+                <input type="text" name="comment_content" placeholder="Commentaire" id="post_input"/>
+                <input type="hidden" name="post_id" value="{{ .PostID }}" />
+            </form> 
+            {{ end }}
         </div>
+        <div class="com_container">
+            {{ range .Comment }}
+            <div class="comment_frame">
+                <p>{{ .CommentText }}<p>
+                    <div class="comment_footer">
+                        <p>{{ .CommentAuthor }}</p>
+                        <p>{{ .CommentDate }}</p>
+                    </div>
+            </div>
+            {{ end }}
+        </div>
+
       </div>
-    </div>
-  </article>
+  </body>
 </html>
 
-<script>
-  function redirectInput() {
-    location.href = "/postCreator";
-  }
-</script>
+<script></script>
 
 {{ end }}
