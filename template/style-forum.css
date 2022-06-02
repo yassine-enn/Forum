@@ -344,6 +344,7 @@ article[id="post"] {
 }
 
 .post_frame {
+  overflow: auto;
   display: flex;
   flex-direction: row;
   border: solid;
@@ -409,6 +410,10 @@ article[id="post"] {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+}
+.post_content_text {
+  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 .post_footer {
