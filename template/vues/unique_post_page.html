@@ -75,6 +75,32 @@
         </article>
           {{ end }}
         </div>
+        <div class="com_creator">
+            <form method="POST" action="unique_post_page.html">
+                <input type="text" name="comment_content" placeholder="Commentaire" id="post_input"/>
+                <input type="hidden" name="post_id" value="{{ .PostID }}" />
+                <input type="submit" name="comment" value="Commenter" />
+            </form> 
+        </div>
+        <div class="com_container">
+            {{ range .Comment }}
+            <div class="com_frame">
+                <div class="com_margin">
+                <div class="com_content">
+                    <div class="com_header">
+                    <div class="com_header_left">
+                        <p>{{ .CommentAuthor }}</p>
+                    </div>
+                    <div class="com_header_right">
+                        <p>{{ .CommentDate }}</p>
+                    </div>
+                    </div>
+                    <div class="com_content_text">{{ .CommentContent }}</div>
+                </div>
+                </div>
+            </div>
+            {{ end }}
+        </div>"
       </div>
   </body>
 </html>
