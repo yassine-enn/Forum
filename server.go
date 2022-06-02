@@ -35,6 +35,7 @@ func main() {
 		fmt.Println("Template loading Error:", err)
 		return
 	}
+	http.HandleFunc("/", Er404)
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			if r.FormValue("signup_button") == "LOG IN" {
@@ -158,4 +159,8 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 	isLog = false
 	redirect := "/home"
 	http.Redirect(w, r, redirect, http.StatusFound)
+}
+
+func Er404(w http.ResponseWriter, r *http.Request) {
+	template.Must(template.ParseFiles("template/vues/err404.html")).ExecuteTemplate(w, "err404.html", nil) //opening of the er404.html page
 }
